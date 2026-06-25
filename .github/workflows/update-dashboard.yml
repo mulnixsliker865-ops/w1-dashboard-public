@@ -25,11 +25,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
+        if: github.event_name != 'push'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Build dashboard data from Feishu
+        if: github.event_name != 'push'
         run: npm run build:data
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
@@ -39,6 +41,7 @@ jobs:
           FEISHU_ASSIGNMENT_TABLE_ID: tbl3yc7EZT05fczy
 
       - name: Commit refreshed data
+        if: github.event_name != 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Refresh dashboard data"
