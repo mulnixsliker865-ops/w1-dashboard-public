@@ -1,0 +1,9 @@
+{
+  "name": "w1-dashboard-public",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/build-dashboard-data.mjs"
+  }
+}

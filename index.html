@@ -1,0 +1,2213 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>W1 线索多维分析看板</title>
+  <style>
+    :root {
+      --page: #eaf5ff;
+      --card: #ffffff;
+      --text: #20252b;
+      --muted: #8b949e;
+      --line: #e7edf3;
+      --blue: #2daaf3;
+      --blue-soft: #9edcf4;
+      --blue-pale: #b3c8fa;
+      --green: #a9e6a4;
+      --mint: #91e0d7;
+      --lime: #dce98a;
+      --yellow: #f6d98b;
+      --shadow: 0 10px 28px rgba(55, 103, 148, .08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      color: var(--text);
+      background: var(--page);
+    }
+
+    button, select { font: inherit; }
+    .dashboard { width: 100%; padding: 20px 22px 28px; }
+
+    .topbar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .title-wrap { display: flex; align-items: center; gap: 12px; }
+    h1 { font-size: 21px; line-height: 1; margin: 0; font-weight: 650; }
+    .stamp {
+      color: #687582;
+      font-size: 14px;
+      padding: 6px 10px;
+      border: 1px solid rgba(123, 153, 180, .22);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .5);
+    }
+    .actions { display: flex; gap: 8px; }
+    .action {
+      border: 1px solid #d7e4ef;
+      background: rgba(255,255,255,.78);
+      color: #46525d;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .action:hover { background: #fff; border-color: #b8d2e7; }
+
+    .filters {
+      display: grid;
+      grid-template-columns: .72fr 1.12fr 1.22fr 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .filter-card {
+      min-height: 84px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 22px;
+      border-radius: 16px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: visible;
+    }
+    .filter-card label {
+      flex: 0 0 auto;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+    .filter-hint {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 10px;
+      color: #94a0aa;
+      font-size: 13px;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+    .filter-card select {
+      flex: 1 1 auto;
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: #6f7a84;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+    }
+    .filter-card select[multiple] {
+      display: none;
+    }
+    .multi-picker {
+      flex: 1 1 auto;
+      min-width: 0;
+      position: relative;
+    }
+    .multi-trigger {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: #6f7a84;
+      font-size: 16px;
+      line-height: 1.35;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .multi-trigger::after {
+      content: "⌄";
+      color: #7b8791;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .multi-menu {
+      display: none;
+      position: absolute;
+      z-index: 40;
+      top: calc(100% + 18px);
+      left: 0;
+      right: 0;
+      max-height: 280px;
+      overflow: auto;
+      padding: 8px;
+      border: 1px solid #dce7f0;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 18px 40px rgba(45, 80, 110, .16);
+    }
+    .multi-picker.open .multi-menu { display: block; }
+    .multi-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 5px 7px;
+      border-radius: 8px;
+      color: #53606b;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .multi-option:hover { background: #f1f7fc; }
+    .multi-option input { accent-color: #2daaf3; }
+    .multi-option.all {
+      border-bottom: 1px solid #edf2f6;
+      margin-bottom: 5px;
+      padding-bottom: 9px;
+    }
+    .date-filter-card,
+    .dept-filter-card { position: relative; overflow: visible; }
+    .date-filter-card { z-index: 20; }
+    .date-trigger {
+      width: 100%;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      border: 0;
+      color: #6f7a84;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+    .date-trigger::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid #7d8891;
+      border-bottom: 1.5px solid #7d8891;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform .18s ease;
+    }
+    .date-filter-card.open .date-trigger::after {
+      transform: rotate(225deg) translate(-2px, -2px);
+    }
+    .date-menu {
+      display: none;
+      position: absolute;
+      top: 72px;
+      left: 116px;
+      width: 264px;
+      padding: 5px;
+      border: 1px solid #d9e0e6;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 12px 32px rgba(38, 65, 88, .18);
+      z-index: 50;
+    }
+    .date-filter-card.open .date-menu { display: block; }
+    .date-option {
+      width: 100%;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: #343b42;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .date-option:hover,
+    .date-option.active { background: #f0f1f2; }
+    .date-option.custom {
+      margin-top: 4px;
+      border-top: 1px solid #e3e6e9;
+      border-radius: 0 0 5px 5px;
+    }
+    .custom-range {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 8px 10px 10px;
+      border-top: 1px solid #eef1f3;
+    }
+    .custom-range.show { display: grid; }
+    .custom-range input {
+      width: 100%;
+      padding: 7px;
+      border: 1px solid #d8e0e6;
+      border-radius: 6px;
+      color: #505a63;
+      font: inherit;
+    }
+    .custom-range .apply-range {
+      grid-column: 1 / -1;
+      padding: 7px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      position: relative;
+      min-height: 270px;
+      padding: 20px;
+      background: var(--card);
+      border: 1px solid rgba(216, 231, 242, .7);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .metric-card {
+      grid-column: 1 / -1;
+      min-height: 138px;
+      padding: 22px 28px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: center;
+      gap: 0;
+    }
+    .status-card { min-height: 430px; }
+    .conversion-card { grid-column: 1 / -1; min-height: 410px; }
+    .wide { grid-column: span 6; min-height: 400px; }
+    .full { grid-column: 1 / -1; min-height: 330px; }
+    .card-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 650;
+    }
+    .card-note {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .metric-item {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 8px 20px;
+      border-left: 1px solid var(--line);
+    }
+    .metric-item:first-child { border-left: 0; }
+    .metric-number {
+      color: #30363c;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 720;
+      letter-spacing: -1px;
+      white-space: nowrap;
+    }
+    .metric-name {
+      color: #687582;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+    .geo-metrics-card {
+      min-height: 132px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: center;
+      row-gap: 18px;
+      padding: 22px 28px;
+      background: linear-gradient(180deg, #f4f7ff, #eef4ff);
+    }
+    .geo-section-title {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: #202a35;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .geo-metric {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 76px;
+      border-left: 1px solid #cfd8e8;
+    }
+    .geo-metric:first-of-type { border-left: 0; }
+    .geo-label {
+      color: #657087;
+      font-size: 15px;
+    }
+    .geo-number {
+      color: #351494;
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: .02em;
+    }
+    .geo-chart-card {
+      min-height: 370px;
+    }
+    .geo-chart-card .chart {
+      height: 300px;
+      margin-top: 10px;
+    }
+    .chart { width: 100%; height: 235px; margin-top: 6px; }
+    .wide .chart { height: 340px; }
+    .trend-card { min-height: 430px; }
+    .trend-card .chart { height: 350px; }
+    .channel-trend-card { min-height: 520px; }
+    .channel-trend-card .chart { height: 440px; }
+    .district-card { min-height: 430px; }
+    .district-card .chart { height: 350px; }
+    .conversion-card #conversionChart { height: 345px; }
+    .fourth-level-card .chart { height: 680px; }
+    .funnel-section {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .funnel-card {
+      min-height: 430px;
+    }
+    .funnel-chart {
+      width: 100%;
+      height: 345px;
+      margin-top: 8px;
+    }
+    .funnel-status-card {
+      min-height: 430px;
+    }
+    .funnel-status-card .chart {
+      height: 345px;
+      margin-top: 8px;
+    }
+    .analysis-panel {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid #dceaf4;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f7fbff, #fbfdff);
+    }
+    .analysis-card {
+      min-height: 0;
+    }
+    .analysis-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .analysis-heading h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .analysis-badge {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: #167db8;
+      background: #e8f6ff;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .analysis-summary {
+      margin: 0;
+      color: #56636e;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+    .rule-library {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .rule-item {
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid #e5edf3;
+      color: #66727c;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .rule-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #34414b;
+      font-size: 14px;
+    }
+    .rule-item ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .rule-item li + li { margin-top: 5px; }
+
+    .table-wrap {
+      margin-top: 14px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 16px; }
+    th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+    th { color: #65717c; font-weight: 600; background: #f8fbfd; }
+    .th-hint {
+      display: block;
+      margin-top: 3px;
+      color: #9aa5ae;
+      font-size: 13px;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    td.num, th.num { text-align: right; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #f7fbff; }
+    .rate { color: #168dd2; font-weight: 650; }
+    .summary-table th,
+    .summary-table td { text-align: center; }
+    .summary-table .category-cell {
+      width: 16%;
+      font-weight: 650;
+      color: #2d3740;
+      background: #fbfdff;
+      vertical-align: middle;
+    }
+    .summary-table .total-row td {
+      font-weight: 700;
+      background: #f6faff;
+    }
+    .empty {
+      display: none;
+      position: absolute;
+      inset: 65px 20px 20px;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      background: rgba(255,255,255,.94);
+      z-index: 2;
+    }
+
+    @media (max-width: 1500px) {
+      .filters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1024px) {
+      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .status-card, .wide { grid-column: span 1; }
+      .metric-card, .conversion-card, .full { grid-column: 1 / -1; }
+      .funnel-section { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .metric-card { padding-inline: 18px; }
+      .metric-item { padding-inline: 12px; gap: 7px; }
+      .metric-number { font-size: 28px; }
+      .metric-name { font-size: 14px; }
+      .geo-metrics-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .geo-section-title { grid-column: 1 / -1; }
+      .geo-metric:nth-of-type(odd) { border-left: 0; }
+      .geo-metric:nth-of-type(n+3) { border-top: 1px solid #cfd8e8; }
+      .summary-table { min-width: 900px; }
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 15px; }
+      .dashboard { padding: 12px; }
+      .topbar {
+        height: auto;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .title-wrap {
+        min-width: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 7px;
+      }
+      h1 { font-size: 20px; line-height: 1.25; }
+      .stamp { font-size: 12px; }
+      .actions { flex: 0 0 auto; }
+      .action { padding: 7px 9px; font-size: 14px; }
+      #fullBtn { display: none; }
+
+      .filters { grid-template-columns: 1fr; gap: 10px; }
+      .filter-card {
+        min-height: 76px;
+        padding: 0 16px;
+        border-radius: 13px;
+      }
+      .filter-card label { font-size: 15px; }
+      .filter-card select,
+      .date-trigger { font-size: 15px; }
+      .filter-hint {
+        left: 16px;
+        right: 16px;
+        bottom: 7px;
+        font-size: 11px;
+      }
+      .date-menu {
+        top: 68px;
+        left: 0;
+        width: min(100%, 320px);
+      }
+
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .funnel-section {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .card,
+      .metric-card,
+      .status-card,
+      .conversion-card,
+      .wide,
+      .full {
+        grid-column: 1;
+        border-radius: 13px;
+      }
+      .card { padding: 16px; }
+      .metric-card {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0;
+        padding: 18px;
+      }
+      .metric-item {
+        min-height: 72px;
+        flex-direction: column;
+        gap: 5px;
+        padding: 12px 8px;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+      .metric-item:nth-child(-n+2) { border-top: 0; }
+      .metric-item:nth-child(even) { border-left: 1px solid var(--line); }
+      .metric-item:last-child { grid-column: 1 / -1; border-left: 0; }
+      .metric-number { font-size: 28px; }
+      .metric-name { font-size: 13px; }
+      .geo-number { font-size: 26px; }
+      .geo-label { font-size: 13px; }
+      .card-title { font-size: 18px; }
+      .card-note { font-size: 13px; line-height: 1.45; }
+      .funnel-card { min-height: 390px; }
+      .funnel-chart { height: 310px; }
+      .rule-library { grid-template-columns: 1fr 1fr; }
+      .analysis-heading { align-items: flex-start; }
+
+      .status-card { min-height: 330px; }
+      .wide { min-height: 370px; }
+      .conversion-card {
+        min-height: 410px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .conversion-card #conversionChart { min-width: 720px; }
+      .fourth-level-card {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .fourth-level-card .chart {
+        min-width: 650px;
+        height: 680px;
+      }
+      table { font-size: 14px; }
+      th, td { padding: 10px 12px; white-space: nowrap; }
+      .summary-table { min-width: 900px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="dashboard">
+    <header class="topbar">
+      <div class="title-wrap">
+        <h1 id="dashboardTitle">2026年线索多维分析看板</h1>
+        <span class="stamp">W1 静态预览 · 数据截至 6月22日 16:50</span>
+      </div>
+      <div class="actions">
+        <button class="action" id="resetBtn">重置筛选</button>
+        <button class="action" id="fullBtn">全屏展示</button>
+    </header>
+
+    <section class="filters" aria-label="看板筛选条件">
+      <div class="filter-card">
+        <label for="yearFilter">数据年份</label>
+        <select id="yearFilter">
+          <option value="2026">2026年</option>
+        </select>
+      </div>
+      <div class="filter-card date-filter-card" id="dateFilterCard">
+        <label>按照时间筛选</label>
+        <button class="date-trigger" id="dateTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span id="dateValue">6月1日—6月22日</span>
+        </button>
+        <div class="filter-hint">线索按创建时间 · 派单按派设计部时间</div>
+        <div class="date-menu" id="dateMenu" role="listbox">
+          <button class="date-option" type="button" data-value="今天">今天</button>
+          <button class="date-option" type="button" data-value="明天">明天</button>
+          <button class="date-option" type="button" data-value="昨天">昨天</button>
+          <button class="date-option" type="button" data-value="过去 7 天">过去 7 天</button>
+          <button class="date-option" type="button" data-value="未来 7 天">未来 7 天</button>
+          <button class="date-option" type="button" data-value="过去 30 天">过去 30 天</button>
+          <button class="date-option" type="button" data-value="未来 30 天">未来 30 天</button>
+          <button class="date-option" type="button" data-value="本周">本周</button>
+          <button class="date-option" type="button" data-value="本月">本月</button>
+          <button class="date-option custom active" type="button" data-value="自定义范围">自定义范围</button>
+          <div class="custom-range" id="customRange">
+            <input id="dateStart" type="date" value="2026-06-01" aria-label="开始日期">
+            <input id="dateEnd" type="date" value="2026-06-22" aria-label="结束日期">
+            <button class="apply-range" id="applyRange" type="button">应用日期范围</button>
+          </div>
+        </div>
+      </div>
+      <div class="filter-card dept-filter-card">
+        <label for="deptFilter">按照部门筛选</label>
+        <select id="deptFilter" multiple size="3">
+          <option value="">全部部门</option>
+        </select>
+        <div class="filter-hint">可多选；线索按创建部门 · 派单按渠道部门</div>
+      </div>
+      <div class="filter-card">
+        <label for="level1Filter">来源渠道一级</label>
+        <select id="level1Filter" multiple size="3"><option value="">全部</option></select>
+      </div>
+      <div class="filter-card">
+        <label for="level2Filter">来源渠道二级</label>
+        <select id="level2Filter" multiple size="3"><option value="">全部</option></select>
+      </div>
+      <div class="filter-card">
+        <label for="level3Filter">来源渠道三级</label>
+        <select id="level3Filter" multiple size="3"><option value="">全部</option></select>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card metric-card">
+        <div class="metric-item"><span class="metric-name">总线索数</span><strong class="metric-number" id="totalValue">745</strong></div>
+        <div class="metric-item"><span class="metric-name">已转客户数</span><strong class="metric-number" id="transferredValue">579</strong></div>
+        <div class="metric-item"><span class="metric-name">转化客户率</span><strong class="metric-number" id="rateValue">77.72%</strong></div>
+        <div class="metric-item"><span class="metric-name">派单数</span><strong class="metric-number" id="assignedValue">229</strong></div>
+        <div class="metric-item"><span class="metric-name">派单率</span><strong class="metric-number" id="assignedRateValue">30.74%</strong></div>
+      </article>
+
+      <article class="card full">
+        <h2 class="card-title">线上非诺云渠道汇总</h2>
+        <p class="card-note">同一时间和部门范围内：线索按创建部门，派单按渠道部门；派单率 = 派单数 ÷ 线索数</p>
+        <div class="table-wrap">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>分类</th>
+                <th>渠道</th>
+                <th>线索数<span class="th-hint">按创建时间 · 创建部门</span></th>
+                <th>派单数<span class="th-hint">按派设计部时间 · 渠道部门</span></th>
+                <th>派单率<span class="th-hint">派单数 ÷ 线索数</span></th>
+                <th>转客户<span class="th-hint">按创建时间 · 创建部门</span></th>
+                <th>有效率</th>
+              </tr>
+            </thead>
+            <tbody id="timeSummaryBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card full trend-card">
+        <h2 class="card-title">二级渠道月度趋势</h2>
+        <p class="card-note">按每月累计展示；不跟随上方日期范围，线索按创建时间，派单按派设计部时间</p>
+        <div id="monthlyTrendChart" class="chart"></div>
+      </article>
+
+      <article class="card full channel-trend-card">
+        <h2 class="card-title">二级渠道分渠道月度趋势</h2>
+        <p class="card-note">每个二级渠道分别展示线索数、转客户数、派单数；不跟随日期范围，跟随来源渠道二级等筛选</p>
+        <div id="level2ChannelMonthlyTrendChart" class="chart"></div>
+      </article>
+
+      <article class="card full geo-metrics-card" aria-label="GEO 指标概览">
+        <h2 class="geo-section-title">GEO词条情况</h2>
+        <div class="geo-metric">
+          <span class="geo-label">训练词总量</span>
+          <strong class="geo-number">10</strong>
+        </div>
+        <div class="geo-metric">
+          <span class="geo-label">推荐词总量</span>
+          <strong class="geo-number">11,595</strong>
+        </div>
+        <div class="geo-metric">
+          <span class="geo-label">累计收录总量</span>
+          <strong class="geo-number">154,248</strong>
+        </div>
+        <div class="geo-metric">
+          <span class="geo-label">线索事件量</span>
+          <strong class="geo-number">127</strong>
+        </div>
+      </article>
+
+      <article class="card full geo-chart-card">
+        <h2 class="card-title">GEO 累计收录量明细</h2>
+        <p class="card-note">数据源：询灵 AI 报告截图，近 30 天走势</p>
+        <div id="geoCollectionChart" class="chart"></div>
+      </article>
+
+      <article class="card full district-card">
+        <h2 class="card-title">天津各地区派单数</h2>
+        <p class="card-note">数据源：是否派单表“省市区”；非天津或空白归为“其他”，跟随当前时间、部门、渠道筛选</p>
+        <div id="districtAssignmentChart" class="chart"></div>
+        <div class="empty">当前筛选暂无地区派单数据</div>
+      </article>
+
+      <section class="funnel-section" aria-label="二级渠道与转客户概览">
+        <article class="card funnel-card">
+          <h2 class="card-title">二级渠道数据沙漏</h2>
+          <p class="card-note">悬停每一层，查看二级渠道的数量与比率</p>
+          <div id="level2FunnelChart" class="funnel-chart"></div>
+        </article>
+        <article class="card status-card funnel-status-card">
+          <h2 class="card-title">是否已转客户</h2>
+          <p class="card-note">按当前筛选口径统计</p>
+          <div id="statusChart" class="chart"></div>
+          <div class="empty">当前筛选暂无数据</div>
+        </article>
+      </section>
+
+      <article class="card full">
+        <h2 class="card-title">渠道明细</h2>
+        <p class="card-note">按线索量从高到低排列</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>一级渠道</th>
+                <th>二级渠道</th>
+                <th>三级渠道</th>
+                <th class="num">已转</th>
+                <th class="num">未转</th>
+                <th class="num">合计</th>
+                <th class="num">转客户率</th>
+              </tr>
+            </thead>
+            <tbody id="detailBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card full analysis-card" aria-label="四级渠道投放分析">
+        <div class="analysis-heading">
+          <h3>四级广播节目投放建议</h3>
+          <span class="analysis-badge">真实数据</span>
+        </div>
+        <p class="analysis-summary" id="level4Analysis"></p>
+        <div class="rule-library" id="analysisRules"></div>
+      </article>
+
+      <article class="card conversion-card">
+        <h2 class="card-title">各渠道转客户表现</h2>
+        <p class="card-note">蓝色为已转客户，浅灰为未转客户</p>
+        <div id="conversionChart" class="chart"></div>
+      </article>
+
+      <article class="card wide">
+        <h2 class="card-title">来源渠道二级占比</h2>
+        <p class="card-note">主要渠道分布</p>
+        <div id="level2Chart" class="chart"></div>
+        <div class="empty">当前筛选暂无数据</div>
+      </article>
+
+      <article class="card wide">
+        <h2 class="card-title">来源渠道三级占比</h2>
+        <p class="card-note">细分投放方式分布</p>
+        <div id="level3Chart" class="chart"></div>
+        <div class="empty">当前筛选暂无数据</div>
+      </article>
+
+      <article class="card full fourth-level-card">
+        <h2 class="card-title">来源渠道四级占比</h2>
+        <p class="card-note">按 W1 四级渠道修复规则整理</p>
+        <div id="level4Chart" class="chart"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="./dashboard-data.js?v=20260625-district-1"></script>
+  <script src="./echarts.min.js"></script>
+  <script>
+    const emptyChannelValues = new Set(["", "无", "待补", "待补充", "未知", "-", "--", "null", "undefined"]);
+
+    function cleanChannelPart(value, fallback = "其他") {
+      const text = String(value || "").trim();
+      return emptyChannelValues.has(text) ? fallback : text;
+    }
+
+    function normalizeChannelLevels(row) {
+      const normalized = { ...row };
+      normalized.l1 = cleanChannelPart(normalized.l1);
+      normalized.l2 = cleanChannelPart(normalized.l2);
+
+      if (normalized.l2 === "自然客流") {
+        normalized.l3 = "自然客流";
+        normalized.l4 = "自然客流";
+        return normalized;
+      }
+
+      normalized.l3 = cleanChannelPart(normalized.l3);
+      normalized.l4 = cleanChannelPart(normalized.l4);
+      return normalized;
+    }
+
+    function splitCrmSourceChannel(rawValue) {
+      const parts = String(rawValue || "")
+        .split("-")
+        .map(part => part.trim())
+        .filter(Boolean);
+      return normalizeChannelLevels({
+        l1: parts[0],
+        l2: parts[1],
+        l3: parts[2],
+        l4: parts.slice(3).join("-")
+      });
+    }
+
+    let sourceRows = [
+      { createDept: "引流部", l1: "线上非诺云", l2: "广播", l3: "广播", l4: "广播", transferred: 274, pending: 8 },
+      { createDept: "引流部", l1: "线上非诺云", l2: "抖音直播类", l3: "本地推直播", l4: "本地推直播", transferred: 140, pending: 37 },
+      { createDept: "引流部", l1: "线上非诺云", l2: "百度系", l3: "搜索", l4: "搜索", transferred: 80, pending: 83 },
+      { createDept: "引流部", l1: "线上非诺云", l2: "抖音信息流类", l3: "本地推信息流", l4: "本地推信息流", transferred: 16, pending: 33 },
+      { createDept: "前台部", l1: "其他", l2: "自然客流", l3: "自然客流", l4: "自然客流", transferred: 24, pending: 0 },
+      { createDept: "引流部", l1: "线上非诺云", l2: "运营类", l3: "点评类（大众点评、美团点评）", l4: "大众点评", transferred: 11, pending: 2 },
+      { createDept: "引流部", l1: "线上非诺云", l2: "腾讯系", l3: "微信朋友圈", l4: "微信朋友圈", transferred: 9, pending: 3 },
+      { createDept: "市场部", l1: "市场部", l2: "小区(非定点)", l3: "散资源", l4: "其他", transferred: 12, pending: 0 },
+      { createDept: "商务一部", l1: "商务一部(中介)", l2: "其他中介", l3: "其他", l4: "其他", transferred: 5, pending: 0 },
+      { createDept: "设计部", l1: "回单", l2: "设计回单", l3: "其他", l4: "其他", transferred: 5, pending: 0 },
+      { createDept: "商务一部", l1: "商务一部(中介)", l2: "21世纪", l3: "其他", l4: "其他", transferred: 2, pending: 0 },
+      { createDept: "市场部", l1: "市场部", l2: "小区(非定点)", l3: "小区自运营", l4: "其他", transferred: 1, pending: 0 }
+    ]
+      .filter(Boolean)
+      .map(row => ({ ...normalizeChannelLevels(row), total: row.transferred + row.pending }));
+
+    // 相同 dateRange 下的两套数据源按 channel 汇总后再合并：
+    // leadCount / transferredCount：筛选创建时间 + 创建部门
+    // assignedCount：筛选派设计部时间 + 渠道部门
+    let timeSummaryRows = [
+      { channel: "广播", createDept: "引流部", channelDept: "邀约部", leadCount: 282, assignedCount: 133, transferredCount: 274 },
+      { channel: "抖音信息流类", createDept: "引流部", channelDept: "邀约部", leadCount: 49, assignedCount: 6, transferredCount: 16 },
+      { channel: "抖音直播类", createDept: "引流部", channelDept: "邀约部", leadCount: 177, assignedCount: 49, transferredCount: 140 },
+      { channel: "百度系", createDept: "引流部", channelDept: "邀约部", leadCount: 163, assignedCount: 31, transferredCount: 80 },
+      { channel: "腾讯系", createDept: "引流部", channelDept: "邀约部", leadCount: 12, assignedCount: 2, transferredCount: 9 },
+      { channel: "运营类", createDept: "引流部", channelDept: "邀约部", leadCount: 13, assignedCount: 8, transferredCount: 11 }
+    ];
+
+    let level4Rows = [
+      { name: "本地推直播", value: 177, createDept: "引流部" },
+      { name: "搜索", value: 163 },
+      { name: "本地推信息流", value: 49 },
+      { name: "其他", value: 48 },
+      { name: "99《尚恰》", value: 46 },
+      { name: "天津广播_硬广", value: 37 },
+      { name: "经典音乐88.5《一丁夏天》", value: 31 },
+      { name: "99《王然王野》", value: 26 },
+      { name: "99沐晨", value: 24 },
+      { name: "99《大良》", value: 20 },
+      { name: "相声92.1《满不懂和假行家》", value: 18 },
+      { name: "新闻97.2《话说天下事》", value: 14 },
+      { name: "大众点评", value: 13 },
+      { name: "微信朋友圈", value: 12 },
+      { name: "交通106.8《1068晚高峰》", value: 10 },
+      { name: "92.1《新闻二人转》", value: 9 },
+      { name: "99马楠", value: 9 },
+      { name: "885晨曦", value: 8 },
+      { name: "99晶晶", value: 6 },
+      { name: "99《饭心绝对》", value: 6 },
+      { name: "交通106.8《交广会客厅》", value: 6 },
+      { name: "相声92.1《笑笑江湖》", value: 5 },
+      { name: "经济101.4《安居置业》", value: 5 },
+      { name: "99《嘉毅》", value: 3 }
+    ];
+
+    const palette = ["#a9bff5", "#9edff5", "#94dfd5", "#a9e5a2", "#dfea8b", "#f6d98b", "#c9b9ef"];
+    const charts = {
+      status: echarts.init(document.getElementById("statusChart")),
+      l2: echarts.init(document.getElementById("level2Chart")),
+      l3: echarts.init(document.getElementById("level3Chart")),
+      l4: echarts.init(document.getElementById("level4Chart")),
+      conversion: echarts.init(document.getElementById("conversionChart")),
+      monthlyTrend: echarts.init(document.getElementById("monthlyTrendChart")),
+      level2ChannelMonthlyTrend: echarts.init(document.getElementById("level2ChannelMonthlyTrendChart")),
+      geoCollection: echarts.init(document.getElementById("geoCollectionChart")),
+      districtAssignment: echarts.init(document.getElementById("districtAssignmentChart")),
+      funnelL2: echarts.init(document.getElementById("level2FunnelChart"))
+    };
+
+    const analysisRuleLibrary = [
+      {
+        title: "优先投入",
+        detail: "样本≥10，转客户率≥75%，派单率≥35%；连续两个周期达标时提高预算。"
+      },
+      {
+        title: "继续观察",
+        detail: "样本≥10，转客户率≥55%，派单率≥20%；保留投放并观察趋势。"
+      },
+      {
+        title: "降低优先级",
+        detail: "样本≥10，转客户率＜45%或派单率＜12%；先检查节目、话术和落地页。"
+      },
+      {
+        title: "样本不足",
+        detail: "线索数＜10时不直接下结论，合并更多日期后再判断，避免小样本误导。"
+      }
+    ];
+
+    // 接入飞书明细后，每条四级渠道记录应具有：
+    // { name, leadCount, transferredCount, assignedCount, parentL2, parentL3 }
+    // 当前静态快照只有四级线索数，不伪造转客户数和派单数。
+    let level4PerformanceRows = [];
+
+    const l1Select = document.getElementById("level1Filter");
+    const l2Select = document.getElementById("level2Filter");
+    const l3Select = document.getElementById("level3Filter");
+    const deptSelect = document.getElementById("deptFilter");
+    const yearSelect = document.getElementById("yearFilter");
+    // 2026-06-23 从飞书两张明细表实际读取：
+    // 线索表使用“创建部门”，派单表使用“渠道部门”。
+    let feishuDepartmentOptions = [
+      "邀约部", "引流部", "信息中心", "平台部",
+      "市场一部", "市场二部", "市场三部", "市场四部", "市场五部", "市场部",
+      "线上非诺云",
+      "设计一部", "设计二部", "设计三部", "设计四部",
+      "商务一部(中介)"
+    ];
+
+    function unique(values) {
+      return [...new Set(values)].sort((a, b) => a.localeCompare(b, "zh-CN"));
+    }
+
+    function normalizeDept(value) {
+      return String(value || "").trim();
+    }
+
+    function selectedDateRange() {
+      const start = document.getElementById("dateStart")?.value || `${yearSelect.value}-06-01`;
+      const end = document.getElementById("dateEnd")?.value || `${yearSelect.value}-06-22`;
+      return { start, end };
+    }
+
+    function inSelectedDateRange(value) {
+      if (!value) return false;
+      const { start, end } = selectedDateRange();
+      return value.slice(0, 4) === yearSelect.value && value >= start && value <= end;
+    }
+
+    function groupRows(rows, keyFactory, seedFactory, apply) {
+      const groups = new Map();
+      rows.forEach(row => {
+        const key = keyFactory(row);
+        if (!groups.has(key)) groups.set(key, seedFactory(row));
+        apply(groups.get(key), row);
+      });
+      return [...groups.values()];
+    }
+
+    function refreshDataFromFeishu() {
+      const data = window.feishuDashboardData;
+      if (!data) return;
+
+      if (Array.isArray(data.departmentOptions) && data.departmentOptions.length) {
+        feishuDepartmentOptions = data.departmentOptions;
+      }
+
+      const leadRows = data.leadRows.filter(row => inSelectedDateRange(row.createDate));
+      const assignmentRows = data.assignmentRows.filter(row => inSelectedDateRange(row.assignDate));
+
+      sourceRows = groupRows(
+        leadRows,
+        row => [row.createDept, row.l1, row.l2, row.l3, row.l4].join("||"),
+        row => ({
+          createDept: row.createDept,
+          l1: row.l1,
+          l2: row.l2,
+          l3: row.l3,
+          l4: row.l4,
+          transferred: 0,
+          pending: 0,
+          total: 0
+        }),
+        (group, row) => {
+          if (Number.isFinite(row.total)) {
+            group.transferred += row.transferred || 0;
+            group.pending += row.pending || 0;
+            group.total += row.total || 0;
+          } else {
+            if (row.status === "转客户") group.transferred += 1;
+            else group.pending += 1;
+            group.total += 1;
+          }
+        }
+      );
+
+      timeSummaryRows = groupRows(
+        assignmentRows,
+        row => [row.channelDept, row.l1, row.l2, row.l3, row.l4].join("||"),
+        row => ({
+          channel: row.l2,
+          channelDept: row.channelDept,
+          l1: row.l1,
+          l2: row.l2,
+          l3: row.l3,
+          l4: row.l4,
+          assignedCount: 0
+        }),
+        (group, row) => {
+          group.assignedCount += row.assignedCount || 1;
+        }
+      );
+
+      level4Rows = groupRows(
+        leadRows,
+        row => [row.createDept, row.l1, row.l2, row.l3, row.l4].join("||"),
+        row => ({
+          name: row.l4,
+          value: 0,
+          createDept: row.createDept,
+          l1: row.l1,
+          l2: row.l2,
+          l3: row.l3
+        }),
+        (group, row) => {
+          group.value += row.total || 1;
+        }
+      );
+
+      const performance = new Map();
+      const ensurePerformance = row => {
+        const key = [row.l1, row.l2, row.l3, row.l4].join("||");
+        if (!performance.has(key)) {
+          performance.set(key, {
+            name: row.l4,
+            l1: row.l1,
+            l2: row.l2,
+            l3: row.l3,
+            leadCount: 0,
+            transferredCount: 0,
+            assignedCount: 0
+          });
+        }
+        return performance.get(key);
+      };
+      leadRows.forEach(row => {
+        const item = ensurePerformance(row);
+        if (Number.isFinite(row.total)) {
+          item.leadCount += row.total || 0;
+          item.transferredCount += row.transferred || 0;
+        } else {
+          item.leadCount += 1;
+          if (row.status === "转客户") item.transferredCount += 1;
+        }
+      });
+      assignmentRows.forEach(row => {
+        ensurePerformance(row).assignedCount += row.assignedCount || 1;
+      });
+      level4PerformanceRows = [...performance.values()]
+        .filter(row => row.leadCount || row.assignedCount)
+        .sort((a, b) => b.leadCount - a.leadCount);
+
+      document.querySelector(".stamp").textContent =
+        `飞书多维表实时导入 · 线索 ${data.counts.usableLeadRows} 条 · 派单 ${data.counts.usableAssignmentRows} 条`;
+    }
+
+    function selectedValues(select) {
+      return [...select.selectedOptions]
+        .map(option => option.value)
+        .filter(Boolean);
+    }
+
+    function setSelectedValues(select, values) {
+      const selected = new Set(values);
+      [...select.options].forEach(option => {
+        option.selected = option.value ? selected.has(option.value) : !selected.size;
+      });
+    }
+
+    function matchesAny(value, selected) {
+      return !selected.length || selected.includes(value);
+    }
+
+    function setOptions(select, values, previous = []) {
+      const previousValues = Array.isArray(previous) ? previous : [previous].filter(Boolean);
+      select.innerHTML = '<option value="">全部</option>' +
+        values.map(v => `<option value="${v}">${v}</option>`).join("");
+      setSelectedValues(select, previousValues.filter(value => values.includes(value)));
+      syncMultiPicker(select);
+    }
+
+    function normalizeMultiSelect(select) {
+      const values = selectedValues(select);
+      setSelectedValues(select, values);
+      syncMultiPicker(select);
+    }
+
+    function labelForMultiSelect(select) {
+      const values = selectedValues(select);
+      if (!values.length) return select.id === "deptFilter" ? "全部部门" : "全部";
+      if (values.length === 1) return values[0];
+      return `已选 ${values.length} 项`;
+    }
+
+    function syncMultiPicker(select) {
+      const picker = select.nextElementSibling?.classList?.contains("multi-picker")
+        ? select.nextElementSibling
+        : null;
+      if (!picker) return;
+      const button = picker.querySelector(".multi-trigger");
+      const menu = picker.querySelector(".multi-menu");
+      button.textContent = labelForMultiSelect(select);
+      const selected = new Set(selectedValues(select));
+      menu.innerHTML = [...select.options].map(option => {
+        const checked = option.value ? selected.has(option.value) : !selected.size;
+        const cls = option.value ? "multi-option" : "multi-option all";
+        return `<label class="${cls}">
+          <input type="checkbox" value="${escapeHtml(option.value)}" ${checked ? "checked" : ""}>
+          <span>${escapeHtml(option.textContent)}</span>
+        </label>`;
+      }).join("");
+    }
+
+    function initMultiPicker(select) {
+      if (select.nextElementSibling?.classList?.contains("multi-picker")) return;
+      const picker = document.createElement("div");
+      picker.className = "multi-picker";
+      picker.innerHTML = '<button class="multi-trigger" type="button"></button><div class="multi-menu"></div>';
+      select.insertAdjacentElement("afterend", picker);
+      const button = picker.querySelector(".multi-trigger");
+      const menu = picker.querySelector(".multi-menu");
+      button.addEventListener("click", event => {
+        event.stopPropagation();
+        document.querySelectorAll(".multi-picker.open").forEach(openPicker => {
+          if (openPicker !== picker) openPicker.classList.remove("open");
+        });
+        picker.classList.toggle("open");
+      });
+      menu.addEventListener("click", event => {
+        event.stopPropagation();
+        const input = event.target.closest("input");
+        if (!input) return;
+        if (!input.value) {
+          setSelectedValues(select, []);
+        } else {
+          const values = selectedValues(select);
+          const next = new Set(values);
+          if (input.checked) next.add(input.value);
+          else next.delete(input.value);
+          setSelectedValues(select, [...next]);
+        }
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      syncMultiPicker(select);
+    }
+
+    function aggregate(rows, key) {
+      const result = {};
+      rows.forEach(row => result[row[key]] = (result[row[key]] || 0) + row.total);
+      return Object.entries(result)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+    }
+
+    function pct(value, base) {
+      return base ? `${(value / base * 100).toFixed(2)}%` : "0.00%";
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function currentAssignmentRows() {
+      const depts = selectedValues(deptSelect);
+      const l1Values = selectedValues(l1Select);
+      const l2Values = selectedValues(l2Select);
+      const l3Values = selectedValues(l3Select);
+      return timeSummaryRows.filter(row => {
+        if (!matchesAny(normalizeDept(row.channelDept), depts)) return false;
+        if (row.l1) {
+          return matchesAny(row.l1, l1Values) &&
+            matchesAny(row.l2, l2Values) &&
+            matchesAny(row.l3, l3Values);
+        }
+        const source = sourceRows.find(item => item.l2 === row.channel);
+        if (!source) return false;
+        return matchesAny(source.l1, l1Values) &&
+          matchesAny(source.l2, l2Values) &&
+          matchesAny(source.l3, l3Values);
+      });
+    }
+
+    function funnelBreakdown(rows, key) {
+      const groups = new Map();
+      rows.forEach(row => {
+        const name = row[key] || "未分类";
+        if (!groups.has(name)) {
+          groups.set(name, { name, leadCount: 0, transferredCount: 0, assignedCount: 0 });
+        }
+        const group = groups.get(name);
+        group.leadCount += row.total;
+        group.transferredCount += row.transferred;
+      });
+
+      currentAssignmentRows().forEach(assignment => {
+        const source = assignment.l1 ? assignment : sourceRows.find(item => item.l2 === assignment.channel);
+        if (!source) return;
+        const name = source[key] || "未分类";
+        if (!groups.has(name)) {
+          groups.set(name, { name, leadCount: 0, transferredCount: 0, assignedCount: 0 });
+        }
+        groups.get(name).assignedCount += assignment.assignedCount;
+      });
+      return [...groups.values()];
+    }
+
+    function funnelOption(rows, key = null) {
+      const leadCount = rows.reduce((sum, row) => sum + row.total, 0);
+      const transferredCount = rows.reduce((sum, row) => sum + row.transferred, 0);
+      const assignedCount = currentAssignmentRows()
+        .reduce((sum, row) => sum + row.assignedCount, 0);
+      const breakdown = key ? funnelBreakdown(rows, key) : [{
+        name: "当前筛选",
+        leadCount,
+        transferredCount,
+        assignedCount
+      }];
+      const stageMeta = {
+        lead: { title: "线索数", count: leadCount, rate: "" },
+        transferred: {
+          title: "转客户数",
+          count: transferredCount,
+          rate: `转客户率 ${pct(transferredCount, leadCount)}`
+        },
+        assigned: {
+          title: "派单数",
+          count: assignedCount,
+          rate: `派单率 ${pct(assignedCount, leadCount)}`
+        }
+      };
+      const stageKeyMap = {
+        "线索数": "lead",
+        "转客户数": "transferred",
+        "派单数": "assigned"
+      };
+
+      return {
+        color: ["#78c9f5", "#52b7ed", "#2d9edc"],
+        tooltip: {
+          trigger: "item",
+          confine: true,
+          backgroundColor: "rgba(32, 43, 53, .96)",
+          borderWidth: 0,
+          padding: 12,
+          textStyle: { color: "#fff", fontSize: 13 },
+          formatter: params => {
+            const metricKey = stageKeyMap[params.name];
+            const meta = stageMeta[metricKey];
+            const metricField = metricKey === "lead"
+              ? "leadCount"
+              : metricKey === "transferred" ? "transferredCount" : "assignedCount";
+            const ordered = [...breakdown]
+              .filter(item => item[metricField] > 0)
+              .sort((a, b) => b[metricField] - a[metricField]);
+            const lines = ordered.map(item => {
+              const detailRate = metricKey === "transferred"
+                ? ` · ${pct(item.transferredCount, item.leadCount)}`
+                : metricKey === "assigned"
+                  ? ` · ${pct(item.assignedCount, item.leadCount)}`
+                  : "";
+              return `<div style="display:flex;justify-content:space-between;gap:24px;margin-top:6px;">
+                <span>${escapeHtml(item.name)}</span>
+                <strong>${item[metricField]}${detailRate}</strong>
+              </div>`;
+            }).join("");
+            return `<div style="min-width:230px;">
+              <div style="font-size:15px;font-weight:700;margin-bottom:8px;">${meta.title} ${meta.count}</div>
+              ${lines || '<div style="color:#b9c4cc;">当前层暂无数据</div>'}
+            </div>`;
+          }
+        },
+        series: [{
+          type: "funnel",
+          left: "10%",
+          top: 18,
+          bottom: 10,
+          width: "80%",
+          minSize: "38%",
+          maxSize: "100%",
+          sort: "descending",
+          gap: 4,
+          funnelAlign: "center",
+          label: {
+            show: true,
+            position: "inside",
+            color: "#fff",
+            fontSize: 16,
+            fontWeight: 700,
+            lineHeight: 23,
+            formatter: params => {
+              const meta = stageMeta[stageKeyMap[params.name]];
+              return meta.rate
+                ? `${meta.title}  ${meta.count}\n${meta.rate}`
+                : `${meta.title}  ${meta.count}`;
+            }
+          },
+          labelLine: { show: false },
+          itemStyle: {
+            borderColor: "#fff",
+            borderWidth: 2,
+            borderRadius: 5
+          },
+          emphasis: {
+            label: { fontSize: 17 },
+            itemStyle: { shadowBlur: 14, shadowColor: "rgba(45, 158, 220, .35)" }
+          },
+          data: [
+            { name: "线索数", value: leadCount },
+            { name: "转客户数", value: transferredCount },
+            { name: "派单数", value: assignedCount }
+          ]
+        }]
+      };
+    }
+
+    function renderFunnels(rows) {
+      charts.funnelL2.setOption(funnelOption(rows, "l2"), true);
+    }
+
+    function renderLevel4Analysis() {
+      const eligible = level4PerformanceRows.filter(row =>
+        Number.isFinite(row.leadCount) &&
+        Number.isFinite(row.transferredCount) &&
+        Number.isFinite(row.assignedCount)
+      );
+      if (!eligible.length) {
+        document.getElementById("level4Analysis").innerHTML =
+          "当前静态快照仅有四级渠道线索数，缺少节目级转客户数和派单数，因此暂不输出“优先投入/不建议投入”的节目名单。接入飞书两张明细表后，将按手机号去重，并以 <strong>转客户数 ÷ 线索数</strong>、<strong>派单数 ÷ 线索数</strong> 自动生成结论。";
+        return;
+      }
+
+      const withRates = eligible
+        .filter(row =>
+          matchesAny(row.l1, selectedValues(l1Select)) &&
+          matchesAny(row.l2, selectedValues(l2Select)) &&
+          matchesAny(row.l3, selectedValues(l3Select))
+        )
+        .filter(row => selectedValues(l2Select).length || row.l2 === "广播")
+        .map(row => ({
+          ...row,
+          transferRate: row.leadCount ? row.transferredCount / row.leadCount : 0,
+          assignedRate: row.leadCount ? row.assignedCount / row.leadCount : 0
+        }));
+      const priority = withRates
+        .filter(row => row.leadCount >= 10 && row.transferRate >= 0.75 && row.assignedRate >= 0.35)
+        .sort((a, b) => b.assignedRate - a.assignedRate)
+        .slice(0, 5);
+      const watch = withRates
+        .filter(row =>
+          row.leadCount >= 10 &&
+          !(row.transferRate >= 0.75 && row.assignedRate >= 0.35) &&
+          row.transferRate >= 0.55 &&
+          row.assignedRate >= 0.2
+        )
+        .sort((a, b) => b.transferRate - a.transferRate || b.assignedRate - a.assignedRate)
+        .slice(0, 5);
+      const weak = withRates
+        .filter(row => row.leadCount >= 10 && (row.transferRate < 0.45 || row.assignedRate < 0.12))
+        .sort((a, b) => a.transferRate - b.transferRate || a.assignedRate - b.assignedRate)
+        .slice(0, 5);
+      const bestNames = priority.length ? priority.map(row => escapeHtml(row.name)).join("、") : "暂无特别突出的节目";
+      const fmt = row => `<li>${escapeHtml(row.name)} <span class="rate">${(row.transferRate * 100).toFixed(0)}% / ${(row.assignedRate * 100).toFixed(0)}%</span></li>`;
+      const empty = "<li>暂无</li>";
+
+      document.getElementById("level4Analysis").innerHTML =
+        `当前筛选下，广播节目里表现相对更好的主要是：<strong>${bestNames}</strong>。可优先看这些节目的稳定性，再决定预算倾斜。`;
+      document.getElementById("analysisRules").innerHTML = `
+        <div class="rule-item"><strong>优先投入</strong><ul>${priority.length ? priority.map(fmt).join("") : empty}</ul></div>
+        <div class="rule-item"><strong>继续观察</strong><ul>${watch.length ? watch.map(fmt).join("") : empty}</ul></div>
+        <div class="rule-item"><strong>降低优先级</strong><ul>${weak.length ? weak.map(fmt).join("") : empty}</ul></div>
+      `;
+    }
+
+    function horizontalBarOption(data, labelWidth = 150) {
+      const ordered = [...data].sort((a, b) => a.value - b.value);
+      const total = ordered.reduce((sum, item) => sum + item.value, 0);
+      return {
+        color: ["#2daaf3"],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: { type: "shadow" },
+          formatter: params => {
+            const item = params[0];
+            const percent = total ? item.value / total * 100 : 0;
+            return `${item.name}<br>${item.value} 条（${percent.toFixed(2)}%）`;
+          }
+        },
+        grid: { left: labelWidth + 28, right: 72, top: 14, bottom: 32 },
+        xAxis: {
+          type: "value",
+          splitLine: { lineStyle: { color: "#edf2f6" } },
+          axisLabel: { color: "#8a949e", fontSize: 13 }
+        },
+        yAxis: {
+          type: "category",
+          data: ordered.map(item => item.name),
+          axisLine: { show: false },
+          axisTick: { show: false },
+          axisLabel: {
+            color: "#65717c",
+            width: labelWidth,
+            overflow: "truncate",
+            fontSize: 13
+          }
+        },
+        series: [{
+          type: "bar",
+          barMaxWidth: 24,
+          data: ordered.map(item => item.value),
+          label: {
+            show: true,
+            position: "right",
+            color: "#46515b",
+            fontSize: 13,
+            fontWeight: 650
+          },
+          itemStyle: { borderRadius: [0, 6, 6, 0] }
+        }]
+      };
+    }
+
+    function refreshDependentFilters() {
+      const depts = selectedValues(deptSelect);
+      const l1Before = selectedValues(l1Select);
+      const l2Before = selectedValues(l2Select);
+      const l3Before = selectedValues(l3Select);
+      const afterDept = sourceRows.filter(row =>
+        matchesAny(normalizeDept(row.createDept), depts)
+      );
+      setOptions(l1Select, unique(afterDept.map(row => row.l1)), l1Before);
+      const l1Values = selectedValues(l1Select);
+      const afterL1 = afterDept.filter(row => matchesAny(row.l1, l1Values));
+      setOptions(l2Select, unique(afterL1.map(row => row.l2)), l2Before);
+      const l2Values = selectedValues(l2Select);
+      const afterL2 = afterL1.filter(row => matchesAny(row.l2, l2Values));
+      setOptions(l3Select, unique(afterL2.map(row => row.l3)), l3Before);
+    }
+
+    function currentRows() {
+      const depts = selectedValues(deptSelect);
+      const l1Values = selectedValues(l1Select);
+      const l2Values = selectedValues(l2Select);
+      const l3Values = selectedValues(l3Select);
+      return sourceRows.filter(row =>
+        matchesAny(normalizeDept(row.createDept), depts) &&
+        matchesAny(row.l1, l1Values) &&
+        matchesAny(row.l2, l2Values) &&
+        matchesAny(row.l3, l3Values)
+      );
+    }
+
+    function aggregateMetricRows(rows, keys) {
+      const groups = new Map();
+      rows.forEach(row => {
+        const key = keys.map(item => row[item] || "其他").join("||");
+        if (!groups.has(key)) {
+          groups.set(key, {
+            l1: row.l1 || "其他",
+            l2: row.l2 || "其他",
+            l3: row.l3 || "其他",
+            transferred: 0,
+            pending: 0,
+            total: 0
+          });
+        }
+        const group = groups.get(key);
+        group.transferred += row.transferred;
+        group.pending += row.pending;
+        group.total += row.total;
+      });
+      return [...groups.values()].sort((a, b) => b.total - a.total);
+    }
+
+    function aggregateConversionRows(rows) {
+      const groups = new Map();
+      rows.forEach(row => {
+        const key = row.l2 || "其他";
+        if (!groups.has(key)) {
+          groups.set(key, { name: key, transferred: 0, pending: 0, total: 0 });
+        }
+        const group = groups.get(key);
+        group.transferred += row.transferred;
+        group.pending += row.pending;
+        group.total += row.total;
+      });
+      return [...groups.values()].sort((a, b) => b.total - a.total);
+    }
+
+    function currentLevel4Rows() {
+      const depts = selectedValues(deptSelect);
+      const l1Values = selectedValues(l1Select);
+      const l2Values = selectedValues(l2Select);
+      const l3Values = selectedValues(l3Select);
+      const rows = level4Rows.filter(row =>
+        matchesAny(normalizeDept(row.createDept || "引流部"), depts) &&
+        matchesAny(row.l1, l1Values) &&
+        matchesAny(row.l2, l2Values) &&
+        matchesAny(row.l3, l3Values)
+      );
+      const grouped = new Map();
+      rows.forEach(row => grouped.set(row.name, (grouped.get(row.name) || 0) + row.value));
+      return [...grouped.entries()]
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+    }
+
+    function rowMatchesChannelFilters(row, deptField) {
+      return matchesAny(normalizeDept(row[deptField] || "其他"), selectedValues(deptSelect)) &&
+        matchesAny(row.l1, selectedValues(l1Select)) &&
+        matchesAny(row.l2, selectedValues(l2Select)) &&
+        matchesAny(row.l3, selectedValues(l3Select));
+    }
+
+    function renderMonthlyTrend() {
+      const data = window.feishuDashboardData;
+      if (!data) return;
+      const months = Array.from({ length: 12 }, (_, index) => `${index + 1}月`);
+      const leadCounts = Array(12).fill(0);
+      const transferredCounts = Array(12).fill(0);
+      const assignedCounts = Array(12).fill(0);
+
+      data.leadRows
+        .filter(row => row.createDate?.slice(0, 4) === yearSelect.value)
+        .filter(row => rowMatchesChannelFilters(row, "createDept"))
+        .forEach(row => {
+          const monthIndex = Number(row.createDate.slice(5, 7)) - 1;
+          if (monthIndex < 0 || monthIndex > 11) return;
+          leadCounts[monthIndex] += row.total || 0;
+          transferredCounts[monthIndex] += row.transferred || 0;
+        });
+
+      data.assignmentRows
+        .filter(row => row.assignDate?.slice(0, 4) === yearSelect.value)
+        .filter(row => rowMatchesChannelFilters(row, "channelDept"))
+        .forEach(row => {
+          const monthIndex = Number(row.assignDate.slice(5, 7)) - 1;
+          if (monthIndex < 0 || monthIndex > 11) return;
+          assignedCounts[monthIndex] += row.assignedCount || 0;
+        });
+
+      charts.monthlyTrend.setOption({
+        color: ["#2daaf3", "#80d7ef", "#f6b85d"],
+        tooltip: { trigger: "axis" },
+        legend: {
+          top: 0,
+          data: ["线索数", "转客户数", "派单数"],
+          textStyle: { color: "#66727d", fontSize: 14 }
+        },
+        grid: { left: 54, right: 32, top: 52, bottom: 38 },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: months,
+          axisLabel: { color: "#74808a", fontSize: 13 },
+          axisLine: { lineStyle: { color: "#dbe6ee" } }
+        },
+        yAxis: {
+          type: "value",
+          splitLine: { lineStyle: { color: "#edf2f6" } },
+          axisLabel: { color: "#8a949e", fontSize: 13 }
+        },
+        series: [
+          { name: "线索数", type: "line", smooth: true, symbolSize: 7, data: leadCounts },
+          { name: "转客户数", type: "line", smooth: true, symbolSize: 7, data: transferredCounts },
+          { name: "派单数", type: "line", smooth: true, symbolSize: 7, data: assignedCounts }
+        ]
+      }, true);
+    }
+
+    function renderLevel2ChannelMonthlyTrend() {
+      const data = window.feishuDashboardData;
+      if (!data) return;
+      const months = Array.from({ length: 12 }, (_, index) => `${index + 1}月`);
+      const channelMap = new Map();
+      const ensureChannel = channel => {
+        const name = channel || "未分类";
+        if (!channelMap.has(name)) {
+          channelMap.set(name, {
+            name,
+            leadCounts: Array(12).fill(0),
+            transferredCounts: Array(12).fill(0),
+            assignedCounts: Array(12).fill(0)
+          });
+        }
+        return channelMap.get(name);
+      };
+
+      data.leadRows
+        .filter(row => row.createDate?.slice(0, 4) === yearSelect.value)
+        .filter(row => rowMatchesChannelFilters(row, "createDept"))
+        .forEach(row => {
+          const monthIndex = Number(row.createDate.slice(5, 7)) - 1;
+          if (monthIndex < 0 || monthIndex > 11) return;
+          const channel = ensureChannel(row.l2);
+          channel.leadCounts[monthIndex] += row.total || 0;
+          channel.transferredCounts[monthIndex] += row.transferred || 0;
+        });
+
+      data.assignmentRows
+        .filter(row => row.assignDate?.slice(0, 4) === yearSelect.value)
+        .filter(row => rowMatchesChannelFilters(row, "channelDept"))
+        .forEach(row => {
+          const monthIndex = Number(row.assignDate.slice(5, 7)) - 1;
+          if (monthIndex < 0 || monthIndex > 11) return;
+          const channel = ensureChannel(row.l2);
+          channel.assignedCounts[monthIndex] += row.assignedCount || 0;
+        });
+
+      const channelRows = [...channelMap.values()]
+        .map(row => ({
+          ...row,
+          total: row.leadCounts.reduce((sum, value) => sum + value, 0) +
+            row.assignedCounts.reduce((sum, value) => sum + value, 0)
+        }))
+        .filter(row => row.total > 0)
+        .sort((a, b) => b.total - a.total);
+
+      const channelColors = [
+        "#2daaf3", "#7437ff", "#f6b85d", "#21b68a", "#eb6f92",
+        "#5c7cfa", "#15aabf", "#8cc152", "#b197fc", "#ff922b",
+        "#4dabf7", "#cc5de8", "#12b886", "#e64980"
+      ];
+      const metricMeta = [
+        { key: "leadCounts", label: "线索数", lineType: "solid", symbol: "circle" },
+        { key: "transferredCounts", label: "转客户数", lineType: "dashed", symbol: "diamond" },
+        { key: "assignedCounts", label: "派单数", lineType: "dotted", symbol: "triangle" }
+      ];
+      const series = [];
+      channelRows.forEach((channel, channelIndex) => {
+        const color = channelColors[channelIndex % channelColors.length];
+        metricMeta.forEach(metric => {
+          series.push({
+            name: `${channel.name} · ${metric.label}`,
+            type: "line",
+            smooth: true,
+            symbol: metric.symbol,
+            symbolSize: 6,
+            data: channel[metric.key],
+            lineStyle: { width: 2.4, type: metric.lineType, color },
+            itemStyle: { color },
+            emphasis: { focus: "series" }
+          });
+        });
+      });
+
+      charts.level2ChannelMonthlyTrend.setOption({
+        color: channelColors,
+        tooltip: {
+          trigger: "axis",
+          confine: true,
+          formatter: params => {
+            const lines = params
+              .filter(item => item.value)
+              .map(item => `${item.marker}${item.seriesName}：${item.value} 条`);
+            return [`${params[0]?.axisValue || ""}`, ...lines].join("<br>");
+          }
+        },
+        legend: {
+          type: "scroll",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 58,
+          pageIconColor: "#7b8794",
+          pageTextStyle: { color: "#7b8794" },
+          textStyle: { color: "#66727d", fontSize: 12 },
+          data: series.map(item => item.name)
+        },
+        grid: { left: 58, right: 34, top: 92, bottom: 42 },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: months,
+          axisLabel: { color: "#74808a", fontSize: 13 },
+          axisLine: { lineStyle: { color: "#dbe6ee" } }
+        },
+        yAxis: {
+          type: "value",
+          splitLine: { lineStyle: { color: "#edf2f6" } },
+          axisLabel: { color: "#8a949e", fontSize: 13 }
+        },
+        series
+      }, true);
+    }
+
+    function renderGeoCollectionChart() {
+      const dates = ["6.8", "6.9", "6.10", "6.11", "6.12", "6.13", "6.14", "6.15", "6.16", "6.17", "6.18", "6.19", "6.20", "6.21", "6.22", "6.23"];
+      const values = [7800, 7820, 7920, 7920, 7920, 7900, 7950, 10500, 10520, 10530, 11050, 11500, 11500, 11520, 11800, 11800];
+      charts.geoCollection.setOption({
+        color: ["#7437ff"],
+        tooltip: {
+          trigger: "axis",
+          formatter: params => {
+            const item = params[0];
+            return `${item.axisValue}<br>累计收录量：${Number(item.value).toLocaleString()}`;
+          }
+        },
+        grid: { left: 58, right: 30, top: 28, bottom: 38 },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: dates,
+          axisLabel: { color: "#6f7783", fontSize: 13 },
+          axisLine: { lineStyle: { color: "#d8dee8" } },
+          axisTick: { lineStyle: { color: "#d8dee8" } }
+        },
+        yAxis: {
+          type: "value",
+          min: 0,
+          max: 14000,
+          interval: 3000,
+          splitLine: { lineStyle: { color: "#eef2f7" } },
+          axisLabel: {
+            color: "#6f7783",
+            fontSize: 13,
+            formatter: value => value >= 10000 ? `${(value / 10000).toFixed(1)}w` : value.toFixed(1)
+          }
+        },
+        series: [{
+          name: "累计收录量",
+          type: "line",
+          smooth: true,
+          symbol: "circle",
+          symbolSize: 7,
+          lineStyle: { width: 3 },
+          itemStyle: { borderWidth: 2, borderColor: "#fff" },
+          areaStyle: { color: "rgba(116,55,255,.04)" },
+          data: values
+        }]
+      }, true);
+    }
+
+    function renderDistrictAssignmentChart() {
+      const data = window.feishuDashboardData;
+      const rows = Array.isArray(data?.assignmentDistrictRows) ? data.assignmentDistrictRows : [];
+      const selectedRows = rows
+        .filter(row => inSelectedDateRange(row.assignDate))
+        .filter(row => rowMatchesChannelFilters(row, "channelDept"));
+
+      const grouped = new Map();
+      selectedRows.forEach(row => {
+        const district = row.district || "其他";
+        grouped.set(district, (grouped.get(district) || 0) + (row.assignedCount || 0));
+      });
+
+      const ordered = [...grouped.entries()]
+        .map(([name, value]) => ({ name, value }))
+        .filter(item => item.value > 0)
+        .sort((a, b) => b.value - a.value);
+
+      const emptyEl = document.querySelector(".district-card .empty");
+      if (emptyEl) emptyEl.style.display = ordered.length ? "none" : "flex";
+
+      charts.districtAssignment.setOption({
+        color: ["#2daaf3"],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: { type: "shadow" },
+          formatter: params => {
+            const item = params[0];
+            return `${item.name}<br>派单数：${item.value} 条`;
+          }
+        },
+        grid: { left: 98, right: 42, top: 26, bottom: 36 },
+        xAxis: {
+          type: "value",
+          splitLine: { lineStyle: { color: "#edf2f6" } },
+          axisLabel: { color: "#8a949e", fontSize: 13 }
+        },
+        yAxis: {
+          type: "category",
+          data: ordered.map(item => item.name),
+          axisLine: { show: false },
+          axisTick: { show: false },
+          axisLabel: { color: "#65717c", fontSize: 14 }
+        },
+        series: [{
+          type: "bar",
+          barMaxWidth: 24,
+          data: ordered.map(item => item.value),
+          label: {
+            show: true,
+            position: "right",
+            color: "#34414c",
+            fontSize: 14,
+            fontWeight: 650
+          },
+          itemStyle: { borderRadius: [0, 8, 8, 0] }
+        }]
+      }, true);
+    }
+
+    function render() {
+      const rows = currentRows();
+      const transferred = rows.reduce((sum, row) => sum + row.transferred, 0);
+      const pending = rows.reduce((sum, row) => sum + row.pending, 0);
+      const total = transferred + pending;
+      const rate = total ? transferred / total * 100 : 0;
+      const assigned = currentAssignmentRows()
+        .reduce((sum, row) => sum + row.assignedCount, 0);
+      const assignedRate = total ? assigned / total * 100 : 0;
+
+      document.getElementById("totalValue").textContent = total;
+      document.getElementById("transferredValue").textContent = transferred;
+      document.getElementById("rateValue").textContent = `${rate.toFixed(2)}%`;
+      document.getElementById("assignedValue").textContent = assigned;
+      document.getElementById("assignedRateValue").textContent = `${assignedRate.toFixed(2)}%`;
+      renderFunnels(rows);
+      renderMonthlyTrend();
+      renderLevel2ChannelMonthlyTrend();
+      renderGeoCollectionChart();
+
+      charts.status.setOption({
+        color: ["#9edff5", "#a9bff5"],
+        tooltip: { trigger: "item", formatter: "{b}<br>{c} 条（{d}%）" },
+        legend: { top: 2, left: 0, textStyle: { color: "#66727d", fontSize: 13 } },
+        series: [{
+          type: "pie",
+          radius: ["0%", "52%"],
+          center: ["50%", "59%"],
+          itemStyle: { borderColor: "#fff", borderWidth: 2 },
+          label: { color: "#424b54", fontSize: 13, formatter: "{b}: {c}（{d}%）" },
+          data: [
+            { name: "转客户", value: transferred },
+            { name: "未处理", value: pending }
+          ].filter(item => item.value)
+        }]
+      }, true);
+
+      charts.l2.setOption(horizontalBarOption(aggregate(rows, "l2"), 115), true);
+      charts.l3.setOption(horizontalBarOption(aggregate(rows, "l3"), 175), true);
+      charts.l4.setOption(horizontalBarOption(currentLevel4Rows(), 230), true);
+
+      const conversionRows = aggregateConversionRows(rows);
+      const sorted = conversionRows;
+      const maxConversionTotal = Math.max(...sorted.map(row => row.total), 1);
+      const conversionLabelAnchor = Math.ceil(maxConversionTotal * 1.08);
+      const conversionAxisMax = Math.ceil(maxConversionTotal * 1.62 / 20) * 20;
+      charts.conversion.setOption({
+        color: ["#2daaf3", "#dbe5ec"],
+        tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+        legend: { top: 0, data: ["已转客户", "未转客户"], textStyle: { color: "#66727d", fontSize: 15 } },
+        grid: { left: 175, right: 28, top: 46, bottom: 42 },
+        xAxis: {
+          type: "value",
+          max: conversionAxisMax,
+          splitNumber: 5,
+          splitLine: { lineStyle: { color: "#edf2f6" } },
+          axisLabel: { color: "#8a949e", fontSize: 14, hideOverlap: true }
+        },
+        yAxis: {
+          type: "category",
+          data: sorted.map(row => row.name),
+          axisLine: { show: false },
+          axisTick: { show: false },
+          axisLabel: { color: "#65717c", width: 152, overflow: "truncate", fontSize: 15 }
+        },
+        series: [
+          {
+            name: "已转客户",
+            type: "bar",
+            stack: "total",
+            barWidth: 20,
+            data: sorted.map(row => row.transferred),
+            label: {
+              show: false
+            },
+            itemStyle: { borderRadius: [4, 0, 0, 4] }
+          },
+          {
+            name: "未转客户",
+            type: "bar",
+            stack: "total",
+            barWidth: 20,
+            data: sorted.map(row => row.pending),
+            label: { show: false },
+            itemStyle: { borderRadius: [0, 4, 4, 0] }
+          },
+          {
+            name: "数值",
+            type: "scatter",
+            silent: true,
+            symbolSize: 1,
+            itemStyle: { color: "transparent" },
+            data: sorted.map((row, index) => [conversionLabelAnchor, index]),
+            label: {
+              show: true,
+              position: "right",
+              distance: 8,
+              color: "#34414c",
+              fontSize: 15,
+              fontWeight: 650,
+              formatter: params => {
+                const row = sorted[params.dataIndex];
+                return `已转 ${row.transferred}　未转 ${row.pending}`;
+              }
+            },
+            tooltip: { show: false },
+            z: 5
+          }
+        ]
+      }, true);
+
+      const detailRows = aggregateMetricRows(rows, ["l1", "l2", "l3"]);
+      document.getElementById("detailBody").innerHTML = detailRows.map(row => {
+        const rowRate = row.total ? row.transferred / row.total * 100 : 0;
+        return `<tr>
+          <td>${row.l1}</td><td>${row.l2}</td><td>${row.l3}</td>
+          <td class="num">${row.transferred}</td><td class="num">${row.pending}</td>
+          <td class="num">${row.total}</td><td class="num rate">${rowRate.toFixed(2)}%</td>
+        </tr>`;
+      }).join("");
+
+      document.querySelectorAll(".empty").forEach(el => el.style.display = total ? "none" : "flex");
+      renderDistrictAssignmentChart();
+      renderLevel4Analysis();
+    }
+
+    function renderTimeSummary() {
+      const grouped = new Map();
+      const ensure = channel => {
+        if (!grouped.has(channel)) {
+          grouped.set(channel, { channel, leadCount: 0, assignedCount: 0, transferredCount: 0 });
+        }
+        return grouped.get(channel);
+      };
+
+      currentRows()
+        .filter(row => row.l1 === "线上非诺云")
+        .forEach(row => {
+          const group = ensure(row.l2);
+          group.leadCount += row.total;
+          group.transferredCount += row.transferred;
+        });
+
+      currentAssignmentRows()
+        .filter(row => row.l1 === "线上非诺云")
+        .forEach(row => {
+          ensure(row.l2 || row.channel).assignedCount += row.assignedCount;
+        });
+
+      const filteredRows = [...grouped.values()]
+        .filter(row => row.leadCount || row.assignedCount || row.transferredCount)
+        .sort((a, b) => b.leadCount - a.leadCount);
+
+      const totals = filteredRows.reduce((sum, row) => ({
+        leadCount: sum.leadCount + row.leadCount,
+        assignedCount: sum.assignedCount + row.assignedCount,
+        transferredCount: sum.transferredCount + row.transferredCount
+      }), { leadCount: 0, assignedCount: 0, transferredCount: 0 });
+
+      if (!filteredRows.length) {
+        document.getElementById("timeSummaryBody").innerHTML =
+          '<tr><td colspan="7" style="padding:28px;color:#8b949e;">当前部门筛选暂无线上非诺云数据</td></tr>';
+        return;
+      }
+
+      const rows = filteredRows.map((row, index) => {
+        const assignedRate = row.leadCount ? row.assignedCount / row.leadCount * 100 : 0;
+        const effectiveRate = row.leadCount ? row.transferredCount / row.leadCount * 100 : 0;
+        return `<tr>
+          ${index === 0 ? `<td class="category-cell" rowspan="${filteredRows.length + 1}">线上非诺云</td>` : ""}
+          <td>${row.channel}</td>
+          <td>${row.leadCount}</td>
+          <td>${row.assignedCount}</td>
+          <td class="rate">${assignedRate.toFixed(0)}%</td>
+          <td>${row.transferredCount}</td>
+          <td class="rate">${effectiveRate.toFixed(2)}%</td>
+        </tr>`;
+      }).join("");
+
+      const totalAssignedRate = totals.leadCount ? totals.assignedCount / totals.leadCount * 100 : 0;
+      const totalEffectiveRate = totals.leadCount ? totals.transferredCount / totals.leadCount * 100 : 0;
+      document.getElementById("timeSummaryBody").innerHTML = rows + `<tr class="total-row">
+        <td>合计</td>
+        <td>${totals.leadCount}</td>
+        <td>${totals.assignedCount}</td>
+        <td class="rate">${totalAssignedRate.toFixed(0)}%</td>
+        <td>${totals.transferredCount}</td>
+        <td class="rate">${totalEffectiveRate.toFixed(2)}%</td>
+      </tr>`;
+    }
+
+    function applyTimeFilter() {
+      // 同一时间范围对应两套时间字段：
+      // 线索、来源渠道、转客户使用创建时间；派单使用派设计部时间。
+      refreshDataFromFeishu();
+      refreshDependentFilters();
+      render();
+      renderTimeSummary();
+    }
+
+    if (window.feishuDashboardData?.years?.length) {
+      yearSelect.innerHTML = window.feishuDashboardData.years
+        .map(year => `<option value="${year}">${year}年</option>`)
+        .join("");
+      if (window.feishuDashboardData.years.includes("2026")) yearSelect.value = "2026";
+    }
+    refreshDataFromFeishu();
+
+    deptSelect.innerHTML = '<option value="">全部部门</option>' +
+      feishuDepartmentOptions
+        .map(dept => `<option value="${dept}">${dept}</option>`)
+        .join("");
+    setSelectedValues(deptSelect, []);
+    [deptSelect, l1Select, l2Select, l3Select].forEach(initMultiPicker);
+    refreshDependentFilters();
+    render();
+    renderTimeSummary();
+    renderLevel4Analysis();
+
+    const dateFilterCard = document.getElementById("dateFilterCard");
+    const dateTrigger = document.getElementById("dateTrigger");
+    const dateValue = document.getElementById("dateValue");
+    const customRange = document.getElementById("customRange");
+
+    function closeDateMenu() {
+      dateFilterCard.classList.remove("open");
+      dateTrigger.setAttribute("aria-expanded", "false");
+      customRange.classList.remove("show");
+    }
+
+    function formatInputDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function setDateInputsForPreset(label) {
+      const today = new Date();
+      if (String(today.getFullYear()) !== yearSelect.value) {
+        today.setFullYear(Number(yearSelect.value));
+      }
+      const start = new Date(today);
+      const end = new Date(today);
+      if (label === "明天") start.setDate(today.getDate() + 1), end.setDate(today.getDate() + 1);
+      else if (label === "昨天") start.setDate(today.getDate() - 1), end.setDate(today.getDate() - 1);
+      else if (label === "过去 7 天") start.setDate(today.getDate() - 6);
+      else if (label === "未来 7 天") end.setDate(today.getDate() + 6);
+      else if (label === "过去 30 天") start.setDate(today.getDate() - 29);
+      else if (label === "未来 30 天") end.setDate(today.getDate() + 29);
+      else if (label === "本周") {
+        const day = today.getDay() || 7;
+        start.setDate(today.getDate() - day + 1);
+      } else if (label === "本月") {
+        start.setDate(1);
+      }
+      document.getElementById("dateStart").value = formatInputDate(start);
+      document.getElementById("dateEnd").value = formatInputDate(end);
+    }
+
+    dateTrigger.addEventListener("click", event => {
+      event.stopPropagation();
+      const isOpen = dateFilterCard.classList.toggle("open");
+      dateTrigger.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.querySelectorAll(".date-option").forEach(option => {
+      option.addEventListener("click", event => {
+        event.stopPropagation();
+        document.querySelectorAll(".date-option").forEach(item => item.classList.remove("active"));
+        option.classList.add("active");
+        if (option.dataset.value === "自定义范围") {
+          customRange.classList.add("show");
+          return;
+        }
+        setDateInputsForPreset(option.dataset.value);
+        dateValue.textContent = option.dataset.value;
+        closeDateMenu();
+        applyTimeFilter();
+      });
+    });
+
+    document.getElementById("applyRange").addEventListener("click", event => {
+      event.stopPropagation();
+      const start = document.getElementById("dateStart").value;
+      const end = document.getElementById("dateEnd").value;
+      if (!start || !end) return;
+      const format = value => {
+        const [, month, day] = value.split("-");
+        return `${Number(month)}月${Number(day)}日`;
+      };
+      dateValue.textContent = `${format(start)}—${format(end)}`;
+      closeDateMenu();
+      applyTimeFilter();
+    });
+
+    document.addEventListener("click", event => {
+      if (!dateFilterCard.contains(event.target)) closeDateMenu();
+      if (!event.target.closest(".multi-picker")) {
+        document.querySelectorAll(".multi-picker.open").forEach(picker => picker.classList.remove("open"));
+      }
+    });
+    deptSelect.addEventListener("change", () => {
+      normalizeMultiSelect(deptSelect);
+      refreshDependentFilters();
+      render();
+      renderTimeSummary();
+    });
+    l1Select.addEventListener("change", () => { normalizeMultiSelect(l1Select); refreshDependentFilters(); render(); renderTimeSummary(); });
+    l2Select.addEventListener("change", () => { normalizeMultiSelect(l2Select); refreshDependentFilters(); render(); renderTimeSummary(); });
+    l3Select.addEventListener("change", () => { normalizeMultiSelect(l3Select); render(); renderTimeSummary(); });
+    yearSelect.addEventListener("change", () => {
+      document.getElementById("dashboardTitle").textContent =
+        `${yearSelect.value}年线索多维分析看板`;
+      applyTimeFilter();
+    });
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      setSelectedValues(l1Select, []);
+      setSelectedValues(deptSelect, []);
+      refreshDependentFilters();
+      setSelectedValues(l2Select, []);
+      refreshDependentFilters();
+      setSelectedValues(l3Select, []);
+      render();
+      renderTimeSummary();
+    });
+    document.getElementById("fullBtn").addEventListener("click", () => {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    });
+    window.addEventListener("resize", () => Object.values(charts).forEach(chart => chart.resize()));
+  </script>
+</body>
+</html>

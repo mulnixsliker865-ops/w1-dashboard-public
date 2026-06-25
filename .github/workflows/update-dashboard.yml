@@ -1,0 +1,56 @@
+name: Update W1 Dashboard
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Beijing 12:00 = UTC 04:00
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build dashboard data from Feishu
+        run: npm run build:data
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_BASE_APP_TOKEN: LROebpuy6akvMSsfAlDcKx3Kn2c
+          FEISHU_LEAD_TABLE_ID: tblg2u1smIHqJ1vP
+          FEISHU_ASSIGNMENT_TABLE_ID: tbl3yc7EZT05fczy
+
+      - name: Commit refreshed data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Refresh dashboard data"
+          file_pattern: dashboard-data.js
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
