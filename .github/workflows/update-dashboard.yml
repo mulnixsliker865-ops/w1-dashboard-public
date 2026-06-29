@@ -37,7 +37,7 @@ jobs:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_BASE_APP_TOKEN: LROebpuy6akvMSsfAlDcKx3Kn2c
-          FEISHU_LEAD_TABLE_ID: tblg2u1smIHqJ1vP
+          FEISHU_LEAD_TABLE_ID: tbl2HIr7jiHY4PXz
           FEISHU_ASSIGNMENT_TABLE_ID: tbl3yc7EZT05fczy
 
       - name: Commit refreshed data

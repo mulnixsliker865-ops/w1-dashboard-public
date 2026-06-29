@@ -18,7 +18,7 @@
 ## 数据源
 
 - 飞书多维表：`LROebpuy6akvMSsfAlDcKx3Kn2c`
-- 线索表：`tblg2u1smIHqJ1vP`
+- 线索表：`tbl2HIr7jiHY4PXz`（2026年线索表新）
 - 派单表：`tbl3yc7EZT05fczy`
 
 ## 隐私

@@ -2,12 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 
 const APP_TOKEN = process.env.FEISHU_BASE_APP_TOKEN || "LROebpuy6akvMSsfAlDcKx3Kn2c";
-const LEAD_TABLE_ID = process.env.FEISHU_LEAD_TABLE_ID || "tblg2u1smIHqJ1vP";
+const LEAD_TABLE_ID = process.env.FEISHU_LEAD_TABLE_ID || "tbl2HIr7jiHY4PXz";
 const ASSIGNMENT_TABLE_ID = process.env.FEISHU_ASSIGNMENT_TABLE_ID || "tbl3yc7EZT05fczy";
 const OUTPUT = path.resolve("dashboard-data.js");
 
 const TABLES = {
-  leads: { name: "2026年线索表", id: LEAD_TABLE_ID },
+  leads: { name: "2026年线索表新", id: LEAD_TABLE_ID },
   assignments: { name: "是否派单", id: ASSIGNMENT_TABLE_ID }
 };
 
@@ -72,19 +72,33 @@ function cleanText(value) {
   return String(value ?? "").trim();
 }
 
+function firstField(fields, names) {
+  for (const name of names) {
+    const value = fields[name];
+    if (value !== undefined && value !== null && cleanText(value) !== "") return value;
+  }
+  return "";
+}
+
 function cleanChannelPart(value, fallback = "其他") {
   const text = cleanText(value);
   return EMPTY_CHANNEL_VALUES.has(text) ? fallback : text;
 }
 
 function normalizeChannelLevels(fields) {
-  let l1 = cleanText(fields["来源渠道一级"]);
-  let l2 = cleanText(fields["来源渠道二级"]);
-  let l3 = cleanText(fields["来源渠道三级"]);
-  let l4 = cleanText(fields["来源渠道四级"]);
+  let l1 = cleanText(firstField(fields, ["来源渠道一级", "source_channel_level1"]));
+  let l2 = cleanText(firstField(fields, ["来源渠道二级", "source_channel_level2"]));
+  let l3 = cleanText(firstField(fields, ["来源渠道三级", "source_channel_level3"]));
+  let l4 = cleanText(firstField(fields, ["来源渠道四级", "source_channel_level4"]));
 
   if (!l1 || !l2 || !l3 || !l4) {
-    const raw = cleanText(fields["新来源渠道"] || fields["来源渠道"]);
+    const raw = cleanText(firstField(fields, [
+      "新来源渠道",
+      "new_source_channel",
+      "来源渠道",
+      "source_channel",
+      "source_channel_old"
+    ]));
     if (raw.includes("-")) {
       const parts = raw.split("-").map(part => part.trim()).filter(Boolean);
       l1 ||= parts[0] || "";
@@ -155,9 +169,9 @@ async function build() {
   const rawLeadRows = leadRecords.map(record => {
     const fields = record.fields || {};
     return {
-      createDate: toDateString(fields["创建时间"]),
-      createDept: cleanText(fields["创建部门"]) || "其他",
-      status: cleanText(fields["状态"]) || "未处理",
+      createDate: toDateString(firstField(fields, ["创建时间", "created_at", "_created_date"])),
+      createDept: cleanText(firstField(fields, ["创建部门", "create_dept", "sales_dept"])) || "其他",
+      status: cleanText(firstField(fields, ["状态", "status", "_crm_status_snapshot"])) || "未处理",
       ...normalizeChannelLevels(fields)
     };
   }).filter(row => row.createDate);
