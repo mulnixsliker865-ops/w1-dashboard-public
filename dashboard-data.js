@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-06-29T10:17:23.597Z",
+  "generatedAt": "2026-06-30T05:13:34.062Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
