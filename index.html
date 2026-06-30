@@ -644,7 +644,7 @@
     <header class="topbar">
       <div class="title-wrap">
         <h1 id="dashboardTitle">2026年线索多维分析看板</h1>
-        <span class="stamp">W1 静态预览 · 数据截至 6月22日 16:50</span>
+        <span class="stamp">飞书多维表实时导入</span>
       </div>
       <div class="actions">
         <button class="action" id="resetBtn">重置筛选</button>
@@ -661,7 +661,7 @@
       <div class="filter-card date-filter-card" id="dateFilterCard">
         <label>按照时间筛选</label>
         <button class="date-trigger" id="dateTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-          <span id="dateValue">6月1日—6月22日</span>
+          <span id="dateValue">本月1日—最新数据日</span>
         </button>
         <div class="filter-hint">线索按创建时间 · 派单按派设计部时间</div>
         <div class="date-menu" id="dateMenu" role="listbox">
@@ -677,7 +677,7 @@
           <button class="date-option custom active" type="button" data-value="自定义范围">自定义范围</button>
           <div class="custom-range" id="customRange">
             <input id="dateStart" type="date" value="2026-06-01" aria-label="开始日期">
-            <input id="dateEnd" type="date" value="2026-06-22" aria-label="结束日期">
+            <input id="dateEnd" type="date" value="2026-06-29" aria-label="结束日期">
             <button class="apply-range" id="applyRange" type="button">应用日期范围</button>
           </div>
         </div>
@@ -850,7 +850,7 @@
     </section>
   </main>
 
-  <script src="./dashboard-data.js?v=20260625-district-1"></script>
+  <script src="./dashboard-data.js?v=20260630-assignment-sync-1"></script>
   <script src="./echarts.min.js"></script>
   <script>
     const emptyChannelValues = new Set(["", "无", "待补", "待补充", "未知", "-", "--", "null", "undefined"]);
@@ -2077,12 +2077,63 @@
       renderTimeSummary();
     }
 
+    function parseDateString(value) {
+      const [year, month, day] = String(value || "").split("-").map(Number);
+      if (!year || !month || !day) return null;
+      return new Date(year, month - 1, day);
+    }
+
+    function formatInputDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function dateLabel(value) {
+      const [, month, day] = String(value || "").split("-");
+      return month && day ? `${Number(month)}月${Number(day)}日` : value;
+    }
+
+    function latestDataDateForYear(year) {
+      const data = window.feishuDashboardData || {};
+      const dates = [
+        ...(data.leadRows || []).map(row => row.createDate),
+        ...(data.assignmentRows || []).map(row => row.assignDate)
+      ].filter(date => date && date.slice(0, 4) === year);
+      return dates.length ? dates.sort().at(-1) : "";
+    }
+
+    function setDefaultDateRangeToMonthStartThroughLatest() {
+      const year = yearSelect.value;
+      const today = new Date();
+      const latestDataDate = latestDataDateForYear(year);
+      let end = latestDataDate;
+
+      if (String(today.getFullYear()) === year) {
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        const yesterdayText = formatInputDate(yesterday);
+        if (!end || end > yesterdayText) end = yesterdayText;
+      }
+
+      if (!end) end = `${year}-12-31`;
+      const endDate = parseDateString(end);
+      const startDate = endDate ? new Date(endDate.getFullYear(), endDate.getMonth(), 1) : parseDateString(`${year}-01-01`);
+      const start = formatInputDate(startDate);
+
+      document.getElementById("dateStart").value = start;
+      document.getElementById("dateEnd").value = end;
+      document.getElementById("dateValue").textContent = `${dateLabel(start)}—${dateLabel(end)}`;
+    }
+
     if (window.feishuDashboardData?.years?.length) {
       yearSelect.innerHTML = window.feishuDashboardData.years
         .map(year => `<option value="${year}">${year}年</option>`)
         .join("");
       if (window.feishuDashboardData.years.includes("2026")) yearSelect.value = "2026";
     }
+    setDefaultDateRangeToMonthStartThroughLatest();
     refreshDataFromFeishu();
 
     deptSelect.innerHTML = '<option value="">全部部门</option>' +
@@ -2105,13 +2156,6 @@
       dateFilterCard.classList.remove("open");
       dateTrigger.setAttribute("aria-expanded", "false");
       customRange.classList.remove("show");
-    }
-
-    function formatInputDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
     }
 
     function setDateInputsForPreset(label) {
@@ -2191,6 +2235,7 @@
     yearSelect.addEventListener("change", () => {
       document.getElementById("dashboardTitle").textContent =
         `${yearSelect.value}年线索多维分析看板`;
+      setDefaultDateRangeToMonthStartThroughLatest();
       applyTimeFilter();
     });
     document.getElementById("resetBtn").addEventListener("click", () => {
@@ -2200,6 +2245,8 @@
       setSelectedValues(l2Select, []);
       refreshDependentFilters();
       setSelectedValues(l3Select, []);
+      setDefaultDateRangeToMonthStartThroughLatest();
+      refreshDependentFilters();
       render();
       renderTimeSummary();
     });
