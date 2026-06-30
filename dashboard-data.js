@@ -44454,5 +44454,200 @@ window.feishuDashboardData = {
     "aggregatedAssignmentRows": 1180,
     "aggregatedAssignmentDistrictRows": 1913
   },
-  "privacy": "aggregated only; no customer names, phone numbers, or record ids"
+  "privacy": "aggregated only; no customer names, phone numbers, or record ids",
+  "geo": {
+    "status": "ok",
+    "fetchedAt": "2026-06-30T07:46:51.875Z",
+    "source": {
+      "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
+      "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
+    },
+    "metrics": {
+      "trainingWords": 10,
+      "recommendationWords": 12059,
+      "totalCollected": 224598,
+      "leadEvents": 149,
+      "websiteEvents": 121,
+      "phoneEvents": 0
+    },
+    "collectionTrend": [
+      {
+        "date": "2026-06-08",
+        "value": 7860
+      },
+      {
+        "date": "2026-06-09",
+        "value": 7881
+      },
+      {
+        "date": "2026-06-10",
+        "value": 7956
+      },
+      {
+        "date": "2026-06-11",
+        "value": 7956
+      },
+      {
+        "date": "2026-06-12",
+        "value": 7956
+      },
+      {
+        "date": "2026-06-13",
+        "value": 7956
+      },
+      {
+        "date": "2026-06-14",
+        "value": 7956
+      },
+      {
+        "date": "2026-06-15",
+        "value": 10405
+      },
+      {
+        "date": "2026-06-16",
+        "value": 10405
+      },
+      {
+        "date": "2026-06-17",
+        "value": 10428
+      },
+      {
+        "date": "2026-06-18",
+        "value": 10814
+      },
+      {
+        "date": "2026-06-19",
+        "value": 11243
+      },
+      {
+        "date": "2026-06-20",
+        "value": 11243
+      },
+      {
+        "date": "2026-06-21",
+        "value": 11243
+      },
+      {
+        "date": "2026-06-22",
+        "value": 11473
+      },
+      {
+        "date": "2026-06-23",
+        "value": 11473
+      },
+      {
+        "date": "2026-06-24",
+        "value": 11481
+      },
+      {
+        "date": "2026-06-25",
+        "value": 11761
+      },
+      {
+        "date": "2026-06-26",
+        "value": 11644
+      },
+      {
+        "date": "2026-06-27",
+        "value": 11761
+      },
+      {
+        "date": "2026-06-28",
+        "value": 11644
+      },
+      {
+        "date": "2026-06-29",
+        "value": 12059
+      }
+    ],
+    "platformCounts": [
+      {
+        "name": "豆包",
+        "type": "doubao",
+        "count": 2146
+      },
+      {
+        "name": "Deepseek",
+        "type": "deepseek",
+        "count": 25
+      },
+      {
+        "name": "千问",
+        "type": "tongyi",
+        "count": 2103
+      },
+      {
+        "name": "元宝",
+        "type": "yuanbao",
+        "count": 2092
+      },
+      {
+        "name": "文心一言",
+        "type": "baidu",
+        "count": 2167
+      },
+      {
+        "name": "Kimi",
+        "type": "kimi",
+        "count": 2
+      },
+      {
+        "name": "纳米",
+        "type": "nami",
+        "count": 2059
+      },
+      {
+        "name": "抖音AI",
+        "type": "douyin",
+        "count": 87
+      },
+      {
+        "name": "百度",
+        "type": "baiduNew",
+        "count": 228
+      },
+      {
+        "name": "UC",
+        "type": "uc",
+        "count": 325
+      },
+      {
+        "name": "夸克AI",
+        "type": "kuake",
+        "count": 586
+      },
+      {
+        "name": "微信AI",
+        "type": "wechat",
+        "count": 217
+      },
+      {
+        "name": "小红书",
+        "type": "rednote",
+        "count": 22
+      }
+    ],
+    "topKeywords": [
+      {
+        "subject": "全包整装",
+        "count": 428,
+        "type": "doubao"
+      },
+      {
+        "subject": "新房装修",
+        "count": 290,
+        "type": "doubao"
+      },
+      {
+        "subject": "老房翻新",
+        "count": 288,
+        "type": "doubao"
+      },
+      {
+        "subject": "天津全包圆装饰",
+        "count": 151,
+        "type": "doubao"
+      }
+    ]
+  }
 };

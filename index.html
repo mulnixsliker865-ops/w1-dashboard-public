@@ -749,25 +749,25 @@
         <h2 class="geo-section-title">GEO词条情况</h2>
         <div class="geo-metric">
           <span class="geo-label">训练词总量</span>
-          <strong class="geo-number">10</strong>
+          <strong class="geo-number" id="geoTrainingWords">-</strong>
         </div>
         <div class="geo-metric">
           <span class="geo-label">推荐词总量</span>
-          <strong class="geo-number">11,595</strong>
+          <strong class="geo-number" id="geoRecommendationWords">-</strong>
         </div>
         <div class="geo-metric">
           <span class="geo-label">累计收录总量</span>
-          <strong class="geo-number">154,248</strong>
+          <strong class="geo-number" id="geoTotalCollected">-</strong>
         </div>
         <div class="geo-metric">
           <span class="geo-label">线索事件量</span>
-          <strong class="geo-number">127</strong>
+          <strong class="geo-number" id="geoLeadEvents">-</strong>
         </div>
       </article>
 
       <article class="card full geo-chart-card">
         <h2 class="card-title">GEO 累计收录量明细</h2>
-        <p class="card-note">数据源：询灵 AI 报告截图，近 30 天走势</p>
+        <p class="card-note" id="geoChartNote">数据源：询灵 AI 报告，近 30 天走势</p>
         <div id="geoCollectionChart" class="chart"></div>
       </article>
 
@@ -850,7 +850,7 @@
     </section>
   </main>
 
-  <script src="./dashboard-data.js?v=20260630-assignment-sync-1"></script>
+  <script src="./dashboard-data.js?v=20260630-geo-dynamic-1"></script>
   <script src="./echarts.min.js"></script>
   <script>
     const emptyChannelValues = new Set(["", "无", "待补", "待补充", "未知", "-", "--", "null", "undefined"]);
@@ -1771,8 +1771,34 @@
     }
 
     function renderGeoCollectionChart() {
-      const dates = ["6.8", "6.9", "6.10", "6.11", "6.12", "6.13", "6.14", "6.15", "6.16", "6.17", "6.18", "6.19", "6.20", "6.21", "6.22", "6.23"];
-      const values = [7800, 7820, 7920, 7920, 7920, 7900, 7950, 10500, 10520, 10530, 11050, 11500, 11500, 11520, 11800, 11800];
+      const geo = window.feishuDashboardData?.geo || {};
+      const metrics = geo.metrics || {};
+      const trend = Array.isArray(geo.collectionTrend) ? geo.collectionTrend : [];
+      const dates = trend.map(item => {
+        const [, month = "", day = ""] = String(item.date || "").match(/^\d{4}-(\d{2})-(\d{2})$/) || [];
+        return month && day ? `${Number(month)}.${Number(day)}` : item.date;
+      });
+      const values = trend.map(item => Number(item.value) || 0);
+      const maxValue = Math.max(...values, 1);
+      const yMax = Math.ceil(maxValue / 3000) * 3000;
+      const geoNote = document.getElementById("geoChartNote");
+      const fetchedDate = geo.fetchedAt ? new Date(geo.fetchedAt).toLocaleString("zh-CN", { hour12: false }) : "";
+
+      document.getElementById("geoTrainingWords").textContent = Number(metrics.trainingWords || 0).toLocaleString();
+      document.getElementById("geoRecommendationWords").textContent = Number(metrics.recommendationWords || 0).toLocaleString();
+      document.getElementById("geoTotalCollected").textContent = Number(metrics.totalCollected || 0).toLocaleString();
+      document.getElementById("geoLeadEvents").textContent = Number(metrics.leadEvents || 0).toLocaleString();
+      if (geoNote) {
+        geoNote.textContent = geo.status === "error"
+          ? `数据源：询灵 AI 报告，近 30 天走势；本次抓取失败，暂用上次数据（${geo.error || "未知错误"}）`
+          : `数据源：询灵 AI 报告，近 30 天走势${fetchedDate ? `；更新时间：${fetchedDate}` : ""}`;
+      }
+
+      if (!dates.length) {
+        charts.geoCollection.clear();
+        return;
+      }
+
       charts.geoCollection.setOption({
         color: ["#7437ff"],
         tooltip: {
@@ -1794,7 +1820,7 @@
         yAxis: {
           type: "value",
           min: 0,
-          max: 14000,
+          max: yMax,
           interval: 3000,
           splitLine: { lineStyle: { color: "#eef2f7" } },
           axisLabel: {

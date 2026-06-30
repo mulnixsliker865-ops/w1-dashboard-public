@@ -5,7 +5,7 @@
 ## 数据更新
 
 - 页面是静态 HTML。
-- `dashboard-data.js` 由 GitHub Actions 每天北京时间 12:00 自动从飞书多维表重建。
+- `dashboard-data.js` 由 GitHub Actions 每天北京时间 12:00 自动从飞书多维表和询灵 AI GEO 报告重建。
 - Actions 使用 GitHub Secrets 保存飞书应用凭证，不把密钥写入仓库。
 
 ## GitHub Secrets
@@ -20,6 +20,7 @@
 - 飞书多维表：`LROebpuy6akvMSsfAlDcKx3Kn2c`
 - 线索表：`tbl2HIr7jiHY4PXz`（2026年线索表新）
 - 派单表：`tbl3yc7EZT05fczy`
+- GEO 报告：询灵 AI 报告页 `GEO_REPORT_CODE`
 
 ## 隐私
 

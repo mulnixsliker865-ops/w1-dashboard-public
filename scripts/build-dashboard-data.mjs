@@ -4,6 +4,8 @@ import path from "node:path";
 const APP_TOKEN = process.env.FEISHU_BASE_APP_TOKEN || "LROebpuy6akvMSsfAlDcKx3Kn2c";
 const LEAD_TABLE_ID = process.env.FEISHU_LEAD_TABLE_ID || "tbl2HIr7jiHY4PXz";
 const ASSIGNMENT_TABLE_ID = process.env.FEISHU_ASSIGNMENT_TABLE_ID || "tbl3yc7EZT05fczy";
+const GEO_REPORT_CODE = process.env.GEO_REPORT_CODE || "Wif1YgmEVhv_BgISAi-tTA";
+const XUNLING_BASE_URL = process.env.XUNLING_BASE_URL || "https://www.xunlingai.com";
 const OUTPUT = path.resolve("dashboard-data.js");
 
 const TABLES = {
@@ -149,6 +151,156 @@ function normalizeDistrict(value) {
   return TIANJIN_DISTRICTS.find(district => text.includes(district)) || "其他";
 }
 
+function numberValue(value, fallback = 0) {
+  const number = Number(String(value ?? "").replace(/,/g, ""));
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function readPreviousGeoData() {
+  if (!fs.existsSync(OUTPUT)) return null;
+  const text = fs.readFileSync(OUTPUT, "utf8");
+  const match = text.match(/window\.feishuDashboardData\s*=\s*(\{[\s\S]*\});?\s*$/);
+  if (!match) return null;
+  try {
+    return Function(`"use strict"; return (${match[1]});`)()?.geo || null;
+  } catch {
+    return null;
+  }
+}
+
+async function xunlingJson(pathname, { method = "GET", params = {}, body = null, headers = {} } = {}) {
+  const url = new URL(pathname, XUNLING_BASE_URL);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") url.searchParams.set(key, value);
+  });
+
+  const options = {
+    method,
+    headers: {
+      "User-Agent": "Mozilla/5.0",
+      "Accept": "application/json, text/plain, */*",
+      "aeuid": GEO_REPORT_CODE,
+      ...headers
+    }
+  };
+  if (body) options.body = body;
+
+  const response = await fetch(url, options);
+  const text = await response.text();
+  let payload;
+  try {
+    payload = JSON.parse(text);
+  } catch {
+    throw new Error(`Xunling returned non-JSON response for ${url}: ${text.slice(0, 200)}`);
+  }
+  if (!response.ok) throw new Error(`Xunling API failed ${response.status}: ${url}`);
+  return payload;
+}
+
+async function fetchGeoData() {
+  const fetchedAt = new Date().toISOString();
+
+  const [
+    topKeywords,
+    collectionTrend,
+    collectionTotal,
+    platformCounts,
+    visibleCount,
+    transform
+  ] = await Promise.all([
+    xunlingJson("/zl/aiSearchRanking/topKeywords"),
+    xunlingJson("/zlv3/aiSearchRanking/historyRankingDetailV3", { params: { queryDays: 30 } }),
+    xunlingJson("/zlv3/aiSearchRanking/historyRankingStatisticsV3"),
+    xunlingJson("/zlv3/aiSearchRanking/statisticspV3"),
+    xunlingJson("/dyseo/loose/aiwash/getVisibleCount", { params: { aeuid: GEO_REPORT_CODE } }),
+    xunlingJson("/digital/Wx/H5/Web/Transform", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams({ key: GEO_REPORT_CODE })
+    })
+  ]);
+
+  const token = Object.keys(transform?.data || {})[0] || "";
+  const outline = token
+    ? await xunlingJson("/kefu/anchor/getOutline", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "Authorization": `Bearer ${token}`
+        },
+        body: new URLSearchParams({})
+      })
+    : null;
+
+  const platformList = Array.isArray(platformCounts?.result) ? platformCounts.result : [];
+  const trend = Array.isArray(collectionTrend?.result?.statistics)
+    ? collectionTrend.result.statistics
+        .map(item => ({
+          date: toDateString(item.totalDate),
+          value: numberValue(item.totalNumber)
+        }))
+        .filter(item => item.date)
+        .sort((a, b) => a.date.localeCompare(b.date))
+    : [];
+
+  const recommendationCount = platformList.reduce((sum, item) => sum + numberValue(item.count), 0);
+  const latestTrendValue = trend.length ? trend[trend.length - 1].value : 0;
+
+  return {
+    status: "ok",
+    fetchedAt,
+    source: {
+      reportUrl: `${XUNLING_BASE_URL}/#/ai_report?code=${GEO_REPORT_CODE}`,
+      reportCode: GEO_REPORT_CODE
+    },
+    metrics: {
+      trainingWords: numberValue(topKeywords?.result?.count),
+      recommendationWords: recommendationCount || latestTrendValue,
+      totalCollected: numberValue(collectionTotal?.result),
+      leadEvents: numberValue(outline?.data?.items?.[1]),
+      websiteEvents: numberValue(visibleCount?.data?.weburl_count),
+      phoneEvents: numberValue(visibleCount?.data?.mobile_count)
+    },
+    collectionTrend: trend,
+    platformCounts: platformList
+      .map(item => ({
+        name: cleanText(item.name),
+        type: cleanText(item.type),
+        count: numberValue(item.count)
+      }))
+      .filter(item => item.name),
+    topKeywords: Array.isArray(topKeywords?.result?.list)
+      ? topKeywords.result.list.map(item => ({
+          subject: cleanText(item.subject),
+          count: numberValue(item.count),
+          type: cleanText(item.type)
+        }))
+      : []
+  };
+}
+
+async function fetchGeoDataSafely() {
+  try {
+    return await fetchGeoData();
+  } catch (error) {
+    const previousGeo = readPreviousGeoData();
+    return {
+      ...(previousGeo || {}),
+      status: "error",
+      fetchedAt: new Date().toISOString(),
+      error: error.message || String(error),
+      source: previousGeo?.source || {
+        reportUrl: `${XUNLING_BASE_URL}/#/ai_report?code=${GEO_REPORT_CODE}`,
+        reportCode: GEO_REPORT_CODE
+      },
+      metrics: previousGeo?.metrics || {},
+      collectionTrend: previousGeo?.collectionTrend || [],
+      platformCounts: previousGeo?.platformCounts || [],
+      topKeywords: previousGeo?.topKeywords || []
+    };
+  }
+}
+
 function groupRows(rows, getKey, init, update) {
   const map = new Map();
   for (const row of rows) {
@@ -161,9 +313,10 @@ function groupRows(rows, getKey, init, update) {
 
 async function build() {
   const token = await getTenantAccessToken();
-  const [leadRecords, assignmentRecords] = await Promise.all([
+  const [leadRecords, assignmentRecords, geo] = await Promise.all([
     fetchRecords(token, TABLES.leads.id),
-    fetchRecords(token, TABLES.assignments.id)
+    fetchRecords(token, TABLES.assignments.id),
+    fetchGeoDataSafely()
   ]);
 
   const rawLeadRows = leadRecords.map(record => {
@@ -266,6 +419,7 @@ async function build() {
     leadRows,
     assignmentRows,
     assignmentDistrictRows,
+    geo,
     counts: {
       leadRecords: leadRecords.length,
       usableLeadRows: rawLeadRows.length,

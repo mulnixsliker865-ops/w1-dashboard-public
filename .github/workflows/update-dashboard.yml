@@ -39,6 +39,7 @@ jobs:
           FEISHU_BASE_APP_TOKEN: LROebpuy6akvMSsfAlDcKx3Kn2c
           FEISHU_LEAD_TABLE_ID: tbl2HIr7jiHY4PXz
           FEISHU_ASSIGNMENT_TABLE_ID: tbl3yc7EZT05fczy
+          GEO_REPORT_CODE: Wif1YgmEVhv_BgISAi-tTA
 
       - name: Commit refreshed data
         if: github.event_name != 'push'
