@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-06-30T07:16:48.146Z",
+  "generatedAt": "2026-06-30T12:24:02.959Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44444,20 +44444,9 @@ window.feishuDashboardData = {
       "assignedCount": 1
     }
   ],
-  "counts": {
-    "leadRecords": 7311,
-    "usableLeadRows": 7311,
-    "aggregatedLeadRows": 1333,
-    "assignmentRecords": 2053,
-    "usableAssignmentRows": 2051,
-    "uniqueAssignmentRows": 2051,
-    "aggregatedAssignmentRows": 1180,
-    "aggregatedAssignmentDistrictRows": 1913
-  },
-  "privacy": "aggregated only; no customer names, phone numbers, or record ids",
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-06-30T07:46:51.875Z",
+    "fetchedAt": "2026-06-30T12:23:37.763Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
@@ -44649,5 +44638,16 @@ window.feishuDashboardData = {
         "type": "doubao"
       }
     ]
-  }
+  },
+  "counts": {
+    "leadRecords": 7311,
+    "usableLeadRows": 7311,
+    "aggregatedLeadRows": 1333,
+    "assignmentRecords": 2053,
+    "usableAssignmentRows": 2051,
+    "uniqueAssignmentRows": 2051,
+    "aggregatedAssignmentRows": 1180,
+    "aggregatedAssignmentDistrictRows": 1913
+  },
+  "privacy": "aggregated only; no customer names, phone numbers, or record ids"
 };
