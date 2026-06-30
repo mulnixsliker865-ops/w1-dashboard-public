@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-06-30T05:13:34.062Z",
+  "generatedAt": "2026-06-30T07:16:48.146Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -19,6 +19,7 @@ window.feishuDashboardData = {
   "departmentOptions": [
     "平台部",
     "市场二部",
+    "市场五部",
     "市场一部",
     "信息中心",
     "邀约部",
@@ -54,9 +55,9 @@ window.feishuDashboardData = {
       "l2": "抖音直播类",
       "l3": "本地推直播",
       "l4": "其他",
-      "total": 6,
+      "total": 7,
       "transferred": 3,
-      "pending": 3
+      "pending": 4
     },
     {
       "createDate": "2026-06-29",
@@ -65,8 +66,8 @@ window.feishuDashboardData = {
       "l2": "百度系",
       "l3": "搜索",
       "l4": "其他",
-      "total": 3,
-      "transferred": 0,
+      "total": 4,
+      "transferred": 1,
       "pending": 3
     },
     {
@@ -76,8 +77,8 @@ window.feishuDashboardData = {
       "l2": "抖音信息流类",
       "l3": "本地推信息流",
       "l4": "其他",
-      "total": 2,
-      "transferred": 0,
+      "total": 3,
+      "transferred": 1,
       "pending": 2
     },
     {
@@ -14599,6 +14600,94 @@ window.feishuDashboardData = {
       "total": 19,
       "transferred": 18,
       "pending": 1
+    },
+    {
+      "createDate": "2026-06-30",
+      "createDept": "信息中心",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "total": 5,
+      "transferred": 1,
+      "pending": 4
+    },
+    {
+      "createDate": "2026-06-30",
+      "createDept": "引流部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "total": 3,
+      "transferred": 3,
+      "pending": 0
+    },
+    {
+      "createDate": "2026-06-30",
+      "createDept": "市场五部",
+      "l1": "商务一部(中介)",
+      "l2": "其他中介",
+      "l3": "其他",
+      "l4": "其他",
+      "total": 1,
+      "transferred": 1,
+      "pending": 0
+    },
+    {
+      "createDate": "2026-06-30",
+      "createDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "total": 1,
+      "transferred": 1,
+      "pending": 0
+    },
+    {
+      "createDate": "2026-06-30",
+      "createDept": "引流部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "total": 2,
+      "transferred": 0,
+      "pending": 2
+    },
+    {
+      "createDate": "2026-06-30",
+      "createDept": "引流部",
+      "l1": "线上非诺云",
+      "l2": "运营类",
+      "l3": "点评类（大众点评、美团点评）",
+      "l4": "大众点评",
+      "total": 1,
+      "transferred": 1,
+      "pending": 0
+    },
+    {
+      "createDate": "2026-06-29",
+      "createDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "total": 1,
+      "transferred": 1,
+      "pending": 0
+    },
+    {
+      "createDate": "2026-06-29",
+      "createDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "total": 1,
+      "transferred": 1,
+      "pending": 0
     }
   ],
   "assignmentRows": [
@@ -14978,7 +15067,7 @@ window.feishuDashboardData = {
       "l2": "自然客流",
       "l3": "自然客流",
       "l4": "自然客流",
-      "assignedCount": 5
+      "assignedCount": 6
     },
     {
       "assignDate": "2026-06-14",
@@ -15176,7 +15265,7 @@ window.feishuDashboardData = {
       "l2": "广播",
       "l3": "广播",
       "l4": "经典音乐88.5《一丁夏天》",
-      "assignedCount": 3
+      "assignedCount": 4
     },
     {
       "assignDate": "2026-06-17",
@@ -24852,6 +24941,375 @@ window.feishuDashboardData = {
       "l3": "其他",
       "l4": "其他",
       "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-30",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-29",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-29",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-29",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "assignedCount": 3
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "assignedCount": 4
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99晶晶",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "经济101.4《安居置业》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "assignedCount": 7
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "assignedCount": 4
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99马楠",
+      "assignedCount": 4
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "相声92.1《满不懂和假行家》",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "相声92.1《满不懂和假行家》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "assignedCount": 3
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "assignedCount": 3
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "新闻97.2《话说天下事》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "assignedCount": 3
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "腾讯系",
+      "l3": "微信朋友圈",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《大良》",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《大良》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《王然王野》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《王然王野》",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99沐晨",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-11-15",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-11-02",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "官方抖音直播",
+      "l4": "邢昆直播间",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-09-13",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-09-06",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "经济101.4《安居置业》",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-07-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "运营类",
+      "l3": "点评类（大众点评、美团点评）",
+      "l4": "大众点评",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-06-15",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "官方抖音直播",
+      "l4": "王雅琦直播间",
+      "assignedCount": 1
     }
   ],
   "assignmentDistrictRows": [
@@ -25633,7 +26091,7 @@ window.feishuDashboardData = {
       "l3": "自然客流",
       "l4": "自然客流",
       "district": "西青区",
-      "assignedCount": 1
+      "assignedCount": 2
     },
     {
       "assignDate": "2026-06-16",
@@ -25953,7 +26411,7 @@ window.feishuDashboardData = {
       "l3": "广播",
       "l4": "经典音乐88.5《一丁夏天》",
       "district": "津南区",
-      "assignedCount": 1
+      "assignedCount": 2
     },
     {
       "assignDate": "2026-06-17",
@@ -43334,17 +43792,667 @@ window.feishuDashboardData = {
       "l4": "其他",
       "district": "南开区",
       "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-30",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-29",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-29",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "district": "南开区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-29",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "南开区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-30",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "滨海新区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "滨海新区",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "河东区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "河东区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99晶晶",
+      "district": "津南区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "红桥区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "经济101.4《安居置业》",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "西青区",
+      "assignedCount": 4
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "静海县",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "南开区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99马楠",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99马楠",
+      "district": "津南区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99马楠",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99马楠",
+      "district": "滨海新区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "相声92.1《满不懂和假行家》",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "相声92.1《满不懂和假行家》",
+      "district": "南开区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "相声92.1《满不懂和假行家》",
+      "district": "南开区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "北辰区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "东丽区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "district": "河西区",
+      "assignedCount": 2
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "district": "河东区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "district": "滨海新区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "新闻97.2《话说天下事》",
+      "district": "红桥区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "和平区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "东丽区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "津南区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "平台部",
+      "l1": "其他",
+      "l2": "自然客流",
+      "l3": "自然客流",
+      "l4": "自然客流",
+      "district": "和平区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "腾讯系",
+      "l3": "微信朋友圈",
+      "l4": "其他",
+      "district": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "district": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "津南区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《大良》",
+      "district": "东丽区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《大良》",
+      "district": "津南区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《大良》",
+      "district": "静海县",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《王然王野》",
+      "district": "和平区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《王然王野》",
+      "district": "河东区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《王然王野》",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-24",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "北辰区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99沐晨",
+      "district": "其他",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-26",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-25",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "本地推直播",
+      "l4": "其他",
+      "district": "河东区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "天津广播_硬广",
+      "district": "河北区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音信息流类",
+      "l3": "本地推信息流",
+      "l4": "其他",
+      "district": "西青区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2026-06-28",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "99《尚怡》",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-11-15",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "武清区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-11-02",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "官方抖音直播",
+      "l4": "邢昆直播间",
+      "district": "北辰区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-09-13",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "百度系",
+      "l3": "搜索",
+      "l4": "其他",
+      "district": "滨海新区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-09-06",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "广播",
+      "l3": "广播",
+      "l4": "经济101.4《安居置业》",
+      "district": "南开区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-07-27",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "运营类",
+      "l3": "点评类（大众点评、美团点评）",
+      "l4": "大众点评",
+      "district": "河西区",
+      "assignedCount": 1
+    },
+    {
+      "assignDate": "2025-06-15",
+      "channelDept": "邀约部",
+      "l1": "线上非诺云",
+      "l2": "抖音直播类",
+      "l3": "官方抖音直播",
+      "l4": "王雅琦直播间",
+      "district": "东丽区",
+      "assignedCount": 1
     }
   ],
   "counts": {
-    "leadRecords": 7293,
-    "usableLeadRows": 7293,
-    "aggregatedLeadRows": 1325,
-    "assignmentRecords": 1981,
-    "usableAssignmentRows": 1979,
-    "uniqueAssignmentRows": 1979,
-    "aggregatedAssignmentRows": 1139,
-    "aggregatedAssignmentDistrictRows": 1848
+    "leadRecords": 7311,
+    "usableLeadRows": 7311,
+    "aggregatedLeadRows": 1333,
+    "assignmentRecords": 2053,
+    "usableAssignmentRows": 2051,
+    "uniqueAssignmentRows": 2051,
+    "aggregatedAssignmentRows": 1180,
+    "aggregatedAssignmentDistrictRows": 1913
   },
   "privacy": "aggregated only; no customer names, phone numbers, or record ids"
 };
