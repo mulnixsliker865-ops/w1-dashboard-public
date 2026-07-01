@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-06-30T12:24:02.959Z",
+  "generatedAt": "2026-07-01T13:40:24.645Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,15 +44446,15 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-06-30T12:23:37.763Z",
+    "fetchedAt": "2026-07-01T13:39:59.326Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 10,
-      "recommendationWords": 12059,
-      "totalCollected": 224598,
+      "recommendationWords": 12070,
+      "totalCollected": 236657,
       "leadEvents": 149,
       "websiteEvents": 121,
       "phoneEvents": 0
@@ -44547,13 +44547,17 @@ window.feishuDashboardData = {
       {
         "date": "2026-06-29",
         "value": 12059
+      },
+      {
+        "date": "2026-06-30",
+        "value": 12059
       }
     ],
     "platformCounts": [
       {
         "name": "豆包",
         "type": "doubao",
-        "count": 2146
+        "count": 2148
       },
       {
         "name": "Deepseek",
@@ -44563,17 +44567,17 @@ window.feishuDashboardData = {
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2103
+        "count": 2105
       },
       {
         "name": "元宝",
         "type": "yuanbao",
-        "count": 2092
+        "count": 2094
       },
       {
         "name": "文心一言",
         "type": "baidu",
-        "count": 2167
+        "count": 2169
       },
       {
         "name": "Kimi",
@@ -44583,7 +44587,7 @@ window.feishuDashboardData = {
       {
         "name": "纳米",
         "type": "nami",
-        "count": 2059
+        "count": 2061
       },
       {
         "name": "抖音AI",
@@ -44598,7 +44602,7 @@ window.feishuDashboardData = {
       {
         "name": "UC",
         "type": "uc",
-        "count": 325
+        "count": 326
       },
       {
         "name": "夸克AI",
@@ -44619,7 +44623,7 @@ window.feishuDashboardData = {
     "topKeywords": [
       {
         "subject": "全包整装",
-        "count": 428,
+        "count": 447,
         "type": "doubao"
       },
       {
@@ -44629,7 +44633,7 @@ window.feishuDashboardData = {
       },
       {
         "subject": "老房翻新",
-        "count": 288,
+        "count": 289,
         "type": "doubao"
       },
       {
