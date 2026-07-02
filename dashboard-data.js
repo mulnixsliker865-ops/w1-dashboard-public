@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-07-01T13:40:24.645Z",
+  "generatedAt": "2026-07-02T11:59:07.240Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,15 +44446,15 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-07-01T13:39:59.326Z",
+    "fetchedAt": "2026-07-02T11:58:41.016Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 10,
-      "recommendationWords": 12070,
-      "totalCollected": 236657,
+      "recommendationWords": 12172,
+      "totalCollected": 248727,
       "leadEvents": 149,
       "websiteEvents": 121,
       "phoneEvents": 0
@@ -44551,6 +44551,10 @@ window.feishuDashboardData = {
       {
         "date": "2026-06-30",
         "value": 12059
+      },
+      {
+        "date": "2026-07-01",
+        "value": 12070
       }
     ],
     "platformCounts": [
@@ -44567,7 +44571,7 @@ window.feishuDashboardData = {
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2105
+        "count": 2207
       },
       {
         "name": "元宝",
