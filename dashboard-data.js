@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-07-08T06:27:18.707Z",
+  "generatedAt": "2026-07-09T07:40:40.249Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,24 +44446,20 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-07-08T06:26:47.070Z",
+    "fetchedAt": "2026-07-09T07:40:12.281Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 10,
-      "recommendationWords": 12172,
-      "totalCollected": 321555,
-      "leadEvents": 156,
+      "recommendationWords": 12228,
+      "totalCollected": 333739,
+      "leadEvents": 159,
       "websiteEvents": 121,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-06-09",
-        "value": 7881
-      },
       {
         "date": "2026-06-10",
         "value": 7956
@@ -44575,13 +44571,17 @@ window.feishuDashboardData = {
       {
         "date": "2026-07-07",
         "value": 12172
+      },
+      {
+        "date": "2026-07-08",
+        "value": 12184
       }
     ],
     "platformCounts": [
       {
         "name": "豆包",
         "type": "doubao",
-        "count": 2148
+        "count": 2156
       },
       {
         "name": "Deepseek",
@@ -44591,17 +44591,17 @@ window.feishuDashboardData = {
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2207
+        "count": 2226
       },
       {
         "name": "元宝",
         "type": "yuanbao",
-        "count": 2094
+        "count": 2102
       },
       {
         "name": "文心一言",
         "type": "baidu",
-        "count": 2169
+        "count": 2177
       },
       {
         "name": "Kimi",
@@ -44611,7 +44611,7 @@ window.feishuDashboardData = {
       {
         "name": "纳米",
         "type": "nami",
-        "count": 2061
+        "count": 2069
       },
       {
         "name": "抖音AI",
@@ -44621,22 +44621,22 @@ window.feishuDashboardData = {
       {
         "name": "百度",
         "type": "baiduNew",
-        "count": 228
+        "count": 229
       },
       {
         "name": "UC",
         "type": "uc",
-        "count": 326
+        "count": 327
       },
       {
         "name": "夸克AI",
         "type": "kuake",
-        "count": 586
+        "count": 588
       },
       {
         "name": "微信AI",
         "type": "wechat",
-        "count": 217
+        "count": 218
       },
       {
         "name": "小红书",
@@ -44652,7 +44652,7 @@ window.feishuDashboardData = {
       },
       {
         "subject": "新房装修",
-        "count": 290,
+        "count": 294,
         "type": "doubao"
       },
       {
@@ -44662,7 +44662,7 @@ window.feishuDashboardData = {
       },
       {
         "subject": "天津全包圆装饰",
-        "count": 151,
+        "count": 157,
         "type": "doubao"
       }
     ]
