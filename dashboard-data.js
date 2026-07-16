@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-07-15T06:12:51.364Z",
+  "generatedAt": "2026-07-16T06:15:48.730Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,24 +44446,20 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-07-15T06:12:22.419Z",
+    "fetchedAt": "2026-07-16T06:15:18.367Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 10,
-      "recommendationWords": 12920,
-      "totalCollected": 409164,
+      "recommendationWords": 12922,
+      "totalCollected": 422084,
       "leadEvents": 168,
       "websiteEvents": 124,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-06-16",
-        "value": 10405
-      },
       {
         "date": "2026-06-17",
         "value": 10428
@@ -44575,6 +44571,10 @@ window.feishuDashboardData = {
       {
         "date": "2026-07-14",
         "value": 12920
+      },
+      {
+        "date": "2026-07-15",
+        "value": 12920
       }
     ],
     "platformCounts": [
@@ -44591,7 +44591,7 @@ window.feishuDashboardData = {
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2297
+        "count": 2299
       },
       {
         "name": "元宝",
@@ -44652,7 +44652,7 @@ window.feishuDashboardData = {
       },
       {
         "subject": "新房装修",
-        "count": 424,
+        "count": 425,
         "type": "deepseek"
       },
       {
