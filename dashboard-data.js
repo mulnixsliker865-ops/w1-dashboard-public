@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-07-16T06:15:48.730Z",
+  "generatedAt": "2026-07-17T06:13:25.111Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,24 +44446,20 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-07-16T06:15:18.367Z",
+    "fetchedAt": "2026-07-17T06:12:55.930Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 10,
-      "recommendationWords": 12922,
-      "totalCollected": 422084,
-      "leadEvents": 168,
+      "recommendationWords": 12938,
+      "totalCollected": 435022,
+      "leadEvents": 171,
       "websiteEvents": 124,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-06-17",
-        "value": 10428
-      },
       {
         "date": "2026-06-18",
         "value": 10814
@@ -44575,6 +44571,10 @@ window.feishuDashboardData = {
       {
         "date": "2026-07-15",
         "value": 12920
+      },
+      {
+        "date": "2026-07-16",
+        "value": 12938
       }
     ],
     "platformCounts": [
@@ -44591,7 +44591,7 @@ window.feishuDashboardData = {
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2299
+        "count": 2315
       },
       {
         "name": "元宝",
@@ -44662,7 +44662,7 @@ window.feishuDashboardData = {
       },
       {
         "subject": "天津全包圆装饰",
-        "count": 157,
+        "count": 165,
         "type": "doubao"
       }
     ]
