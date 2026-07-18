@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-07-17T06:13:25.111Z",
+  "generatedAt": "2026-07-18T06:03:20.506Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,24 +44446,20 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-07-17T06:12:55.930Z",
+    "fetchedAt": "2026-07-18T06:02:54.345Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 10,
-      "recommendationWords": 12938,
-      "totalCollected": 435022,
-      "leadEvents": 171,
+      "recommendationWords": 14535,
+      "totalCollected": 447960,
+      "leadEvents": 185,
       "websiteEvents": 124,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-06-18",
-        "value": 10814
-      },
       {
         "date": "2026-06-19",
         "value": 11243
@@ -44575,33 +44571,37 @@ window.feishuDashboardData = {
       {
         "date": "2026-07-16",
         "value": 12938
+      },
+      {
+        "date": "2026-07-17",
+        "value": 12938
       }
     ],
     "platformCounts": [
       {
         "name": "豆包",
         "type": "doubao",
-        "count": 2228
+        "count": 2471
       },
       {
         "name": "Deepseek",
         "type": "deepseek",
-        "count": 316
+        "count": 556
       },
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2315
+        "count": 2553
       },
       {
         "name": "元宝",
         "type": "yuanbao",
-        "count": 2172
+        "count": 2409
       },
       {
         "name": "文心一言",
         "type": "baidu",
-        "count": 2248
+        "count": 2488
       },
       {
         "name": "Kimi",
@@ -44611,59 +44611,59 @@ window.feishuDashboardData = {
       {
         "name": "纳米",
         "type": "nami",
-        "count": 2137
+        "count": 2372
       },
       {
         "name": "抖音AI",
         "type": "douyin",
-        "count": 90
+        "count": 100
       },
       {
         "name": "百度",
         "type": "baiduNew",
-        "count": 236
+        "count": 262
       },
       {
         "name": "UC",
         "type": "uc",
-        "count": 338
+        "count": 374
       },
       {
         "name": "夸克AI",
         "type": "kuake",
-        "count": 608
+        "count": 673
       },
       {
         "name": "微信AI",
         "type": "wechat",
-        "count": 225
+        "count": 250
       },
       {
         "name": "小红书",
         "type": "rednote",
-        "count": 23
+        "count": 25
       }
     ],
     "topKeywords": [
       {
         "subject": "全包整装",
-        "count": 447,
-        "type": "doubao"
+        "count": 629,
+        "type": "baidu"
       },
       {
         "subject": "新房装修",
         "count": 425,
-        "type": "deepseek"
+        "type": "baidu"
       },
       {
         "subject": "老房翻新",
-        "count": 344,
-        "type": "doubao"
+        "count": 408,
+        "type": "baidu"
       },
       {
         "subject": "天津全包圆装饰",
         "count": 165,
-        "type": "doubao"
+        "type": "baidu"
       }
     ]
   },
