@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-07-22T06:26:18.716Z",
+  "generatedAt": "2026-07-23T06:29:03.050Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,7 +44446,7 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-07-22T06:25:49.855Z",
+    "fetchedAt": "2026-07-23T06:28:35.585Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
@@ -44454,16 +44454,12 @@ window.feishuDashboardData = {
     "metrics": {
       "trainingWords": 10,
       "recommendationWords": 16298,
-      "totalCollected": 508976,
-      "leadEvents": 237,
+      "totalCollected": 525274,
+      "leadEvents": 260,
       "websiteEvents": 124,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-06-22",
-        "value": 11473
-      },
       {
         "date": "2026-06-23",
         "value": 11473
@@ -44579,6 +44575,10 @@ window.feishuDashboardData = {
       {
         "date": "2026-07-21",
         "value": 16139
+      },
+      {
+        "date": "2026-07-22",
+        "value": 16298
       }
     ],
     "platformCounts": [
