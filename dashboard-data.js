@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-08-02T06:30:59.612Z",
+  "generatedAt": "2026-08-03T06:57:41.254Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,24 +44446,20 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-08-02T06:30:35.561Z",
+    "fetchedAt": "2026-08-03T06:57:14.432Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 11,
-      "recommendationWords": 16480,
-      "totalCollected": 689853,
-      "leadEvents": 290,
+      "recommendationWords": 16486,
+      "totalCollected": 706333,
+      "leadEvents": 296,
       "websiteEvents": 124,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-07-03",
-        "value": 12172
-      },
       {
         "date": "2026-07-04",
         "value": 12070
@@ -44579,6 +44575,10 @@ window.feishuDashboardData = {
       {
         "date": "2026-08-01",
         "value": 16480
+      },
+      {
+        "date": "2026-08-02",
+        "value": 16480
       }
     ],
     "platformCounts": [
@@ -44590,7 +44590,7 @@ window.feishuDashboardData = {
       {
         "name": "Deepseek",
         "type": "deepseek",
-        "count": 889
+        "count": 895
       },
       {
         "name": "千问",
@@ -44651,7 +44651,7 @@ window.feishuDashboardData = {
     "topKeywords": [
       {
         "subject": "新房装修",
-        "count": 708,
+        "count": 711,
         "type": "baidu"
       },
       {
