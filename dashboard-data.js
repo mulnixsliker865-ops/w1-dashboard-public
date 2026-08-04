@@ -1,5 +1,5 @@
 window.feishuDashboardData = {
-  "generatedAt": "2026-08-03T06:57:41.254Z",
+  "generatedAt": "2026-08-04T06:25:48.989Z",
   "source": {
     "app": "LROebpuy6akvMSsfAlDcKx3Kn2c",
     "leadTable": {
@@ -44446,24 +44446,20 @@ window.feishuDashboardData = {
   ],
   "geo": {
     "status": "ok",
-    "fetchedAt": "2026-08-03T06:57:14.432Z",
+    "fetchedAt": "2026-08-04T06:25:16.787Z",
     "source": {
       "reportUrl": "https://www.xunlingai.com/#/ai_report?code=Wif1YgmEVhv_BgISAi-tTA",
       "reportCode": "Wif1YgmEVhv_BgISAi-tTA"
     },
     "metrics": {
       "trainingWords": 11,
-      "recommendationWords": 16486,
-      "totalCollected": 706333,
-      "leadEvents": 296,
-      "websiteEvents": 124,
+      "recommendationWords": 16488,
+      "totalCollected": 722819,
+      "leadEvents": 306,
+      "websiteEvents": 125,
       "phoneEvents": 0
     },
     "collectionTrend": [
-      {
-        "date": "2026-07-04",
-        "value": 12070
-      },
       {
         "date": "2026-07-05",
         "value": 12172
@@ -44579,6 +44575,10 @@ window.feishuDashboardData = {
       {
         "date": "2026-08-02",
         "value": 16480
+      },
+      {
+        "date": "2026-08-03",
+        "value": 16486
       }
     ],
     "platformCounts": [
@@ -44595,7 +44595,7 @@ window.feishuDashboardData = {
       {
         "name": "千问",
         "type": "tongyi",
-        "count": 2838
+        "count": 2840
       },
       {
         "name": "元宝",
@@ -44656,7 +44656,7 @@ window.feishuDashboardData = {
       },
       {
         "subject": "全包整装",
-        "count": 630,
+        "count": 631,
         "type": "baidu"
       },
       {
